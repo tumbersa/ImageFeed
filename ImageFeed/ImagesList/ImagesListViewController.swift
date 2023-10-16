@@ -40,6 +40,11 @@ extension ImagesListViewController {
         } else {
             cell.likeButton.setImage(UIImage(named: "No Active Like"), for: .normal)
         }
+        
+        let gradient = CAGradientLayer()
+        gradient.frame = cell.cellGradient.bounds
+        gradient.colors = [UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.0).cgColor, UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.5).cgColor]
+        cell.cellGradient.layer.insertSublayer(gradient, at: 0)
     }
 }
 
