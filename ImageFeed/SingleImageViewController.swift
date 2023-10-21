@@ -41,7 +41,10 @@ final class SingleImageViewController: UIViewController {
     }
     
     @IBAction private func didTapShareButton(){
-        
+        let vc = UIActivityViewController(activityItems: [self.image as Any], applicationActivities: nil)
+        vc.popoverPresentationController?.sourceView = self.view
+                
+        self.present(vc, animated: true, completion: nil)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
