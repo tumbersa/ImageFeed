@@ -16,6 +16,31 @@ final class SingleImageViewController: UIViewController {
         }
     }
     
+    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var scrollView: UIScrollView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        imageView.image = image
+        
+        scrollView.minimumZoomScale = 0.1
+        scrollView.maximumZoomScale = 1.25
+        
+        rescaleAndCenterImageInScrollView(image: image)
+    }
+    
+    @IBAction private func didTapBackButton() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction private func didTapShareButton(){
+        let vc = UIActivityViewController(activityItems: [self.image as Any], applicationActivities: nil)
+        vc.popoverPresentationController?.sourceView = self.view
+                
+        self.present(vc, animated: true, completion: nil)
+    }
+   
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.maximumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
@@ -31,30 +56,6 @@ final class SingleImageViewController: UIViewController {
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
-    }
-    
-    @IBOutlet var imageView: UIImageView!
-    @IBOutlet var scrollView: UIScrollView!
-    
-    @IBAction private func didTapBackButton() {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction private func didTapShareButton(){
-        let vc = UIActivityViewController(activityItems: [self.image as Any], applicationActivities: nil)
-        vc.popoverPresentationController?.sourceView = self.view
-                
-        self.present(vc, animated: true, completion: nil)
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        imageView.image = image
-        
-        scrollView.minimumZoomScale = 0.1
-        scrollView.maximumZoomScale = 1.25
-        
-        rescaleAndCenterImageInScrollView(image: image)
     }
 }
 
