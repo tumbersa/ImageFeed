@@ -114,7 +114,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="0ZD-Gs-GgP" secondAttribute="trailing" id="IWd-EN-lZK"/>
                             <constraint firstItem="0ZD-Gs-GgP" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="LJH-QS-tOv"/>
@@ -123,7 +123,6 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="VHS-4E-4qK"/>
-                    <navigationItem key="navigationItem" id="0lN-Kj-j3G"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="0ZD-Gs-GgP" id="Fuw-16-5ad"/>
@@ -177,12 +176,11 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G1w-6e-VxL" userLabel="ShareButton">
                                 <rect key="frame" x="179.5" y="824" width="55" height="55"/>
-                                <color key="backgroundColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" name="YP Black"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="kpE-OR-RSJ"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="use-s0-B6M"/>
                                 </constraints>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="Sharing">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -198,7 +196,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="h26-ag-5wu"/>
-                        <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="Uan-Ej-EyE" firstAttribute="top" secondItem="h26-ag-5wu" secondAttribute="top" constant="8" id="ALh-gp-ZJ1"/>
                             <constraint firstItem="h26-ag-5wu" firstAttribute="trailing" secondItem="0s9-5f-Abk" secondAttribute="trailing" id="Cl3-TB-fqS"/>
