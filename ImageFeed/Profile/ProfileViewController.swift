@@ -43,7 +43,7 @@ final class ProfileViewController: UIViewController {
         let nameLabel = UILabel()
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = .ypWhite
-        nameLabel.font = UIFont(name: "SFPro-Bold", size: 23)
+        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
         view.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8).isActive = true
@@ -55,7 +55,7 @@ final class ProfileViewController: UIViewController {
         let loginNameLabel = UILabel()
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.textColor = .ypGray
-        loginNameLabel.font = UIFont(name: "SFPro-Regular", size: 13)
+        loginNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         view.addSubview(loginNameLabel)
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
@@ -67,7 +67,7 @@ final class ProfileViewController: UIViewController {
          let descriptionLabel = UILabel()
          descriptionLabel.text = "Hello, world!"
          descriptionLabel.textColor = .ypWhite
-         descriptionLabel.font = UIFont(name: "SFPro-Regular", size: 13)
+        descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
          view.addSubview(descriptionLabel)
          descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
          NSLayoutConstraint.activate([
