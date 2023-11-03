@@ -229,10 +229,61 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="Tja-g8-JZY"/>
+                    <connections>
+                        <segue destination="9AB-NZ-iGX" kind="presentation" identifier="ShowWebView" modalPresentationStyle="overFullScreen" id="wV1-Xe-u5Y"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Ny-2e-XVu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-173.91304347826087" y="1445.7589285714284"/>
+        </scene>
+        <!--Web View View Controller-->
+        <scene sceneID="4mT-Ah-Mse">
+            <objects>
+                <viewController id="9AB-NZ-iGX" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="esF-fZ-20f">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tDh-Wo-6Dt">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cnz-zy-xyP">
+                                <rect key="frame" x="8" y="8" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="C7F-ej-qLw"/>
+                                    <constraint firstAttribute="height" constant="44" id="a55-02-mF4"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="nav_back_button"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="9AB-NZ-iGX" eventType="touchUpInside" id="qfU-8q-R0D"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="800-dh-D32"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="tDh-Wo-6Dt" secondAttribute="trailing" id="FPd-zl-Cv7"/>
+                            <constraint firstAttribute="bottom" secondItem="tDh-Wo-6Dt" secondAttribute="bottom" id="Oae-MY-Our"/>
+                            <constraint firstItem="Cnz-zy-xyP" firstAttribute="top" secondItem="800-dh-D32" secondAttribute="top" constant="8" id="ReK-Gq-Nkj"/>
+                            <constraint firstItem="Cnz-zy-xyP" firstAttribute="leading" secondItem="800-dh-D32" secondAttribute="leading" constant="8" id="SrY-8B-z40"/>
+                            <constraint firstItem="tDh-Wo-6Dt" firstAttribute="leading" secondItem="esF-fZ-20f" secondAttribute="leading" id="V71-gY-MbU"/>
+                            <constraint firstItem="tDh-Wo-6Dt" firstAttribute="top" secondItem="esF-fZ-20f" secondAttribute="top" id="kmV-hQ-s1b"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="tDh-Wo-6Dt" id="Fnd-kD-CfJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0vU-DD-nyZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="770" y="1447"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="KyL-DP-sI7">
@@ -274,6 +325,7 @@
         <image name="Backward" width="24" height="24"/>
         <image name="No Active Like" width="44" height="44"/>
         <image name="Sharing" width="30" height="30"/>
+        <image name="nav_back_button" width="24" height="24"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_active" width="30" height="30"/>
         <namedColor name="YP Black">

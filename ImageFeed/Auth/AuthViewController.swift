@@ -7,7 +7,10 @@
 
 import UIKit
 
+
 final class AuthViewController: UIViewController {
+    private let showWebViewindentifier = "ShowWebView"
+    
     private lazy var logoImageView: UIImageView = {
         var logoImageView: UIImageView = UIImageView(image: UIImage(named: "logo_of_unsplash")) 
         view.addSubview(logoImageView)
@@ -42,17 +45,42 @@ final class AuthViewController: UIViewController {
         return loginButton
     }()
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == showWebViewindentifier {
+            guard let viewController = segue.destination  as? WebViewViewController
+            else { fatalError("Failed to prepare for \(showWebViewindentifier)") }
+            viewController.delegate = self
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         congigScreen()
     }
     
     @objc func didTapLoginButton(){
-        
+        performSegue(withIdentifier: showWebViewindentifier, sender: nil)
     }
     func congigScreen(){
         view.backgroundColor = .ypBlack
         _ = loginButton
         _ = logoImageView
     }
+}
+
+extension AuthViewController: WebViewViewControllerDelegate {
+    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        //TODO: process code
+    }
+    
+    func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
+        vc.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension AuthViewController {
+    
 }
