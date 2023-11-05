@@ -81,6 +81,4 @@ extension AuthViewController: WebViewViewControllerDelegate {
     }
 }
 
-extension AuthViewController {
-    
-}
+

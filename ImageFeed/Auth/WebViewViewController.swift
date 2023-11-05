@@ -24,6 +24,9 @@ final class WebViewViewController:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        webView.navigationDelegate = self
+        
         var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
         urlComponents.queryItems = [
         URLQueryItem(name: "client_id", value: accessKey),
@@ -35,8 +38,7 @@ final class WebViewViewController:UIViewController{
         
         let request = URLRequest(url: url)
         webView.load(request)
-        
-        webView.navigationDelegate = self
+       
         updateProgress()
     }
     
