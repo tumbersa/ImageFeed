@@ -10,6 +10,7 @@ import UIKit
 
 final class AuthViewController: UIViewController {
     private let showWebViewindentifier = "ShowWebView"
+    weak var delegate: AuthViewControllerDelegate?
     
     private lazy var logoImageView: UIImageView = {
         var logoImageView: UIImageView = UIImageView(image: UIImage(named: "logo_of_unsplash")) 
@@ -73,7 +74,7 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        //TODO: process code
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

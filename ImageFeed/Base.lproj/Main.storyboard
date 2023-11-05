@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="U0Y-bV-8Es">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mZf-ZP-H9Q">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -13,7 +13,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="8Lv-ac-ncE">
             <objects>
-                <tabBarController id="ExU-e5-YEl" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="ExU-e5-YEl" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="gV6-de-WDD">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -235,7 +235,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Ny-2e-XVu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-173.91304347826087" y="1445.7589285714284"/>
+            <point key="canvasLocation" x="61" y="-619"/>
         </scene>
         <!--Web View View Controller-->
         <scene sceneID="4mT-Ah-Mse">
@@ -291,7 +291,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0vU-DD-nyZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="770" y="1447"/>
+            <point key="canvasLocation" x="1087" y="-619"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="KyL-DP-sI7">
@@ -309,13 +309,43 @@
             </objects>
             <point key="canvasLocation" x="61" y="802"/>
         </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="YBR-nF-kcu">
+            <objects>
+                <viewController id="mZf-ZP-H9Q" customClass="SplashViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WCJ-2X-7wh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image Feed Vector" translatesAutoresizingMaskIntoConstraints="NO" id="Gqa-GV-DkK">
+                                <rect key="frame" x="150" y="415" width="114" height="80"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="DgR-Ul-Odf"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Gqa-GV-DkK" firstAttribute="centerY" secondItem="DgR-Ul-Odf" secondAttribute="centerY" id="3CW-xe-6Fa"/>
+                            <constraint firstItem="Gqa-GV-DkK" firstAttribute="leading" secondItem="DgR-Ul-Odf" secondAttribute="leading" constant="150" id="93f-RS-ApQ"/>
+                            <constraint firstItem="Gqa-GV-DkK" firstAttribute="top" secondItem="DgR-Ul-Odf" secondAttribute="top" constant="367" id="98I-zZ-wgc"/>
+                            <constraint firstItem="Gqa-GV-DkK" firstAttribute="centerX" secondItem="DgR-Ul-Odf" secondAttribute="centerX" id="XfN-MB-AAS"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <segue destination="U0Y-bV-8Es" kind="presentation" identifier="ShowAuthenticationScreen" modalPresentationStyle="overFullScreen" id="8sP-3V-R0M"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="svE-bd-cTl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2425" y="-116"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="8Vm-xH-mvS">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="U0Y-bV-8Es" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="3eV-KL-6rL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4qL-hk-2jG">
-                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -325,12 +355,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nNC-RD-t43" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1084.0579710144928" y="1445.7589285714284"/>
+            <point key="canvasLocation" x="-1071" y="-619"/>
         </scene>
     </scenes>
     <resources>
         <image name="0" width="200" height="132"/>
         <image name="Backward" width="24" height="24"/>
+        <image name="Image Feed Vector" width="37.5" height="39"/>
         <image name="No Active Like" width="44" height="44"/>
         <image name="Sharing" width="30" height="30"/>
         <image name="nav_back_button" width="24" height="24"/>
