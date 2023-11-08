@@ -9,8 +9,9 @@ import UIKit
 
 
 final class AuthViewController: UIViewController {
-    private let showWebViewindentifier = "ShowWebView"
     weak var delegate: AuthViewControllerDelegate?
+    
+    private let showWebViewindentifier = "ShowWebView"
     
     private lazy var logoImageView: UIImageView = {
         var logoImageView: UIImageView = UIImageView(image: UIImage(named: "logo_of_unsplash")) 
@@ -62,10 +63,10 @@ final class AuthViewController: UIViewController {
         congigScreen()
     }
     
-    @objc func didTapLoginButton(){
+    @objc private func didTapLoginButton(){
         performSegue(withIdentifier: showWebViewindentifier, sender: nil)
     }
-    func congigScreen(){
+    private func congigScreen(){
         view.backgroundColor = .ypBlack
         _ = loginButton
         _ = logoImageView
@@ -74,6 +75,7 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        vc.dismiss(animated: true)
         delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
