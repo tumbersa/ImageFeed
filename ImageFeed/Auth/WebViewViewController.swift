@@ -18,7 +18,7 @@ final class WebViewViewController:UIViewController{
     @IBOutlet private var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
     
-    @IBAction func didTapBackButton(_ sender: Any) {
+    @IBAction private func didTapBackButton(_ sender: Any) {
         delegate?.webViewViewControllerDidCancel(self)
     }
     
@@ -34,7 +34,9 @@ final class WebViewViewController:UIViewController{
         URLQueryItem(name: "response_type", value: "code"),
         URLQueryItem(name: "scope", value: accessScope)
         ]
-        let url = urlComponents.url!
+        guard let url = urlComponents.url else {
+            fatalError("There is no url in url components")
+        }
         
         let request = URLRequest(url: url)
         webView.load(request)
@@ -79,7 +81,7 @@ extension WebViewViewController: WKNavigationDelegate {
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if let url = navigationAction.request.url,
            let urlComponents = URLComponents(string: url.absoluteString),
-           urlComponents.path == "/oauth/authorize/native",
+           urlComponents.path == pathToGetCode,
            let items = urlComponents.queryItems,
            let codeItem = items.first(where: {$0.name == "code"})
         {

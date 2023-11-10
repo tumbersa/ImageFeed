@@ -14,7 +14,8 @@ final class AuthViewController: UIViewController {
     private let showWebViewindentifier = "ShowWebView"
     
     private lazy var logoImageView: UIImageView = {
-        var logoImageView: UIImageView = UIImageView(image: UIImage(named: "logo_of_unsplash")) 
+        let logoImage = UIImage(named: "logo_of_unsplash")
+        var logoImageView = UIImageView(image: logoImage)
         view.addSubview(logoImageView)
         
         logoImageView.translatesAutoresizingMaskIntoConstraints = false

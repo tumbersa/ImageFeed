@@ -15,7 +15,10 @@ extension URLRequest {
         httpMethod: String = "GET",
         baseUrl: URL = defaultBaseURL
     ) -> URLRequest {
-        var request = URLRequest(url: URL(string: path, relativeTo: baseUrl)!)
+        guard let url = URL(string: path, relativeTo: baseUrl) else {
+            fatalError("Invalid url")
+        }
+        var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         return request
     }

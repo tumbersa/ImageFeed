@@ -12,13 +12,6 @@ final class ProfileViewController: UIViewController {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Avatar")
         view.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
-            imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            imageView.widthAnchor.constraint(equalToConstant: 70),
-            imageView.heightAnchor.constraint(equalToConstant: 70)
-        ])
         return imageView
     }()
     
@@ -29,13 +22,6 @@ final class ProfileViewController: UIViewController {
             action: #selector(didTapLogoutButton))
         button.tintColor = .ypRed
         view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            button.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
-            view.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: 16),
-            button.widthAnchor.constraint(equalToConstant: 44),
-            button.heightAnchor.constraint(equalToConstant: 44)
-        ])
         return button
     }()
     
@@ -45,9 +31,6 @@ final class ProfileViewController: UIViewController {
         nameLabel.textColor = .ypWhite
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
         view.addSubview(nameLabel)
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
         return nameLabel
     }()
     
@@ -57,9 +40,6 @@ final class ProfileViewController: UIViewController {
         loginNameLabel.textColor = .ypGray
         loginNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         view.addSubview(loginNameLabel)
-        loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
-        loginNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
         return loginNameLabel
     }()
     
@@ -67,31 +47,63 @@ final class ProfileViewController: UIViewController {
          let descriptionLabel = UILabel()
          descriptionLabel.text = "Hello, world!"
          descriptionLabel.textColor = .ypWhite
-        descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+         descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
          view.addSubview(descriptionLabel)
-         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-         NSLayoutConstraint.activate([
-             descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
-             descriptionLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor)
-         ])
         return descriptionLabel
     }()
+    
+    override func loadView() {
+        super.loadView()
+        configScreen()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypBlack
-        configScreen()
     }
     
     @objc private func didTapLogoutButton(){
         
     }
     
-    func configScreen(){
+    private func configScreen(){
         _ = avatarImageView
         _ = logoutButton
         _ = nameLabel
         _ = descriptionLabel
         _ = loginNameLabel
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
+            descriptionLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor)
+        ])
+        
+        loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
+        loginNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
+        
+        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
+            avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 70),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 70)
+        ])
+        
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
+            view.trailingAnchor.constraint(equalTo: logoutButton.trailingAnchor, constant: 16),
+            logoutButton.widthAnchor.constraint(equalToConstant: 44),
+            logoutButton.heightAnchor.constraint(equalToConstant: 44)
+        ])
+        
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
     }
 }
