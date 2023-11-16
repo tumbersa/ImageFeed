@@ -63,7 +63,6 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func didTapLogoutButton(){
-        
     }
     
     private func configScreen(){

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service()
@@ -16,7 +17,7 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        //oauth2TokenStorage.token = nil
         if oauth2TokenStorage.token != nil {
             switchToTabBarController()
         } else {
@@ -54,6 +55,7 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(didAuthenticateWithCode code: String) {
+        ProgressHUD.animate("Please wait...", .barSweepToggle)
         dismiss(animated: true) {[weak self] in
             guard let self else { return }
             self.fetchOAuthToken(code)
@@ -65,8 +67,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success:
                 self.switchToTabBarController()
+                ProgressHUD.dismiss()
             case .failure(let error):
                 print(error.localizedDescription)
+                ProgressHUD.dismiss()
             }
         })
     }
