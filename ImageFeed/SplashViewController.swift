@@ -42,8 +42,7 @@ final class SplashViewController: UIViewController {
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showAuthenticationScreenSegueIdentifier {
-            guard let navigationController = segue.destination as? UINavigationController,
-                  let viewController = navigationController.viewControllers[0] as? AuthViewController else {
+            guard let viewController = segue.destination as?  AuthViewController else {
                 fatalError("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
             }
             viewController.delegate = self
@@ -54,8 +53,8 @@ extension SplashViewController {
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        vc.dismiss(animated: true) {[weak self] in
+    func authViewController(didAuthenticateWithCode code: String) {
+        dismiss(animated: true) {[weak self] in
             guard let self else { return }
             self.fetchOAuthToken(code)
         }

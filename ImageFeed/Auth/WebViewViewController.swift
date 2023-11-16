@@ -27,19 +27,7 @@ final class WebViewViewController:UIViewController{
         
         webView.navigationDelegate = self
         
-        var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
-        urlComponents.queryItems = [
-        URLQueryItem(name: "client_id", value: accessKey),
-        URLQueryItem(name: "redirect_uri", value: redirectURI),
-        URLQueryItem(name: "response_type", value: "code"),
-        URLQueryItem(name: "scope", value: accessScope)
-        ]
-        guard let url = urlComponents.url else {
-            fatalError("There is no url in url components")
-        }
-        
-        let request = URLRequest(url: url)
-        webView.load(request)
+        loadWebView()
        
         updateProgress()
     }
@@ -69,9 +57,11 @@ final class WebViewViewController:UIViewController{
 }
 
 extension WebViewViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    func webView(_ webView: WKWebView,
+                 decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let code = code(from: navigationAction) {
-            delegate?.webViewViewController(self, didAuthenticateWithCode: code)
+            delegate?.webViewViewController(didAuthenticateWithCode: code)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
@@ -91,4 +81,22 @@ extension WebViewViewController: WKNavigationDelegate {
         }
     }
     
+}
+
+private extension WebViewViewController {
+    func loadWebView(){
+        var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
+        urlComponents.queryItems = [
+        URLQueryItem(name: "client_id", value: accessKey),
+        URLQueryItem(name: "redirect_uri", value: redirectURI),
+        URLQueryItem(name: "response_type", value: "code"),
+        URLQueryItem(name: "scope", value: accessScope)
+        ]
+        guard let url = urlComponents.url else {
+            fatalError("There is no url in url components")
+        }
+        
+        let request = URLRequest(url: url)
+        webView.load(request)
+    }
 }
