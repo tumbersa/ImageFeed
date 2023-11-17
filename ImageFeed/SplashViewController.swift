@@ -55,7 +55,7 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(didAuthenticateWithCode code: String) {
-        ProgressHUD.animate("Please wait...", .barSweepToggle)
+        UIBlockingProgressHUD.show()
         dismiss(animated: true) {[weak self] in
             guard let self else { return }
             self.fetchOAuthToken(code)
@@ -67,11 +67,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success:
                 self.switchToTabBarController()
-                ProgressHUD.dismiss()
             case .failure(let error):
                 print(error.localizedDescription)
-                ProgressHUD.dismiss()
             }
+            UIBlockingProgressHUD.dismiss()
         })
     }
 }
