@@ -9,6 +9,8 @@ import UIKit
 import ProgressHUD
 
 final class SplashViewController: UIViewController {
+    private let profileService = ProfileService.shared
+    
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
 
@@ -18,8 +20,9 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //oauth2TokenStorage.token = nil
-        if oauth2TokenStorage.token != nil {
-            switchToTabBarController()
+        if let token = oauth2TokenStorage.token {
+            UIBlockingProgressHUD.show()
+            fetchProfile(token: token)
         } else {
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
         }
@@ -55,22 +58,37 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(didAuthenticateWithCode code: String) {
-        UIBlockingProgressHUD.show()
         dismiss(animated: true) {[weak self] in
             guard let self else { return }
+            UIBlockingProgressHUD.show()
             self.fetchOAuthToken(code)
         }
     }
-    
+}
+
+extension SplashViewController {
     func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code, completion: {result in
             switch result {
-            case .success:
-                self.switchToTabBarController()
+            case .success(let token):
+                self.fetchProfile(token: token)
             case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
                 print(error.localizedDescription)
             }
-            UIBlockingProgressHUD.dismiss()
         })
+    }
+    func fetchProfile(token: String) {
+        ProfileService.shared.fetchProfile(token){[weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success:
+                UIBlockingProgressHUD.dismiss()
+                self.switchToTabBarController()
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                print(error)
+            }
+        }
     }
 }
