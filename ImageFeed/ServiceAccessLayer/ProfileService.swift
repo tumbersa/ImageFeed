@@ -7,6 +7,13 @@
 
 import Foundation
 
+struct Profile {
+    let userName: String
+    let name: String
+    let loginName: String
+    let bio: String?
+}
+
 final class ProfileService {
     static let shared = ProfileService()
     
@@ -31,7 +38,7 @@ final class ProfileService {
                     name: "\(body.firstName) \(body.lastName)",
                     loginName:"@\(body.userName)",
                     bio: body.bio)
-                ProfileService.shared.profile = profile
+                self.profile = profile
                 completion(.success(profile))
                 self.task = nil
             case .failure(let error):
@@ -67,13 +74,6 @@ extension ProfileService {
         })
     }
     
-    struct Profile {
-        let userName: String
-        let name: String
-        let loginName: String
-        let bio: String?
-    }
-    
     private struct ProfileResult: Decodable {
         let firstName: String
         let lastName: String
@@ -88,3 +88,4 @@ extension ProfileService {
         }
     }
 }
+

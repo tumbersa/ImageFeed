@@ -83,11 +83,27 @@ extension SplashViewController {
             guard let self else { return }
             switch result {
             case .success:
+                if let username = self.profileService.profile?.userName {
+                    self.fetchProfileImageURL(username: username)
+                }
                 UIBlockingProgressHUD.dismiss()
                 self.switchToTabBarController()
+                
+               
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
                 print(error)
+            }
+        }
+    }
+    
+    func fetchProfileImageURL(username: String){
+        ProfileImageService.shared.fetchProfileImageURL(username: username){ result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(_):
+            break
             }
         }
     }

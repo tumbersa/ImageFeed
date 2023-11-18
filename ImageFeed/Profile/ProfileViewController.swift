@@ -71,7 +71,7 @@ final class ProfileViewController: UIViewController {
     @objc private func didTapLogoutButton(){
     }
     
-    private func updateProfileDetails(profile:  ProfileService.Profile) {
+    private func updateProfileDetails(profile: Profile) {
         nameLabel.text = profile.name
         loginNameLabel.text = profile.loginName
         descriptionLabel.text = profile.bio
