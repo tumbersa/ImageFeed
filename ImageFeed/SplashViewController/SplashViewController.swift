@@ -24,7 +24,9 @@ final class SplashViewController: UIViewController {
             UIBlockingProgressHUD.show()
             fetchProfile(token: token)
         } else {
-            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
+            performSegue(
+                withIdentifier: showAuthenticationScreenSegueIdentifier,
+                sender: nil)
         }
     }
     
@@ -98,13 +100,18 @@ extension SplashViewController {
     }
     
     func fetchProfileImageURL(username: String){
+        var profileImageURL = ""
         ProfileImageService.shared.fetchProfileImageURL(username: username){ result in
             switch result {
             case .failure(let error):
                 print(error)
-            case .success(_):
-            break
+            case .success(let imageUrl):
+              profileImageURL = imageUrl 
             }
         }
+        NotificationCenter.default.post(
+            name: ProfileImageService.DidChangeNotification,
+            object: self,
+            userInfo: ["URL": profileImageURL])
     }
 }

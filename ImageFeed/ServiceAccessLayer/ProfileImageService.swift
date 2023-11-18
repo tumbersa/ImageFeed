@@ -8,6 +8,7 @@
 import Foundation
 
 final class ProfileImageService {
+    static let DidChangeNotification = Notification.Name("ProfileImageProviderDidChange")
     static let shared = ProfileImageService()
     
     private let urlSession = URLSession.shared
