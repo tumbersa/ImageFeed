@@ -30,7 +30,8 @@ final class ProfileService {
         lastToken = token
         var request = URLRequest.makeHTTPRequest(path: "/me")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        let task = object(for: request){ result in
+        let task = urlSession.objectTask(for: request){[weak self] (result: Result<ProfileResult,Error>) in
+            guard let self else { return }
             switch result {
             case .success(let body):
                 let profile = Profile(
@@ -51,41 +52,16 @@ final class ProfileService {
     }
 }
 
-extension ProfileService {
-    private func object(
-        for request: URLRequest,
-        completion: @escaping (Result<ProfileResult,Error>) -> Void
-    ) -> URLSessionTask{
-        let decoder = JSONDecoder()
-        return urlSession.data(for: request, completion:  { (result: Result<Data, Error>) in
-            switch result {
-            case .success(let data):
-                do {
-                    let object = try decoder.decode(ProfileResult.self,
-                        from: data
-                    )
-                    completion(.success(object))
-                } catch {
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        })
-    }
+struct ProfileResult: Decodable {
+    let firstName: String
+    let lastName: String
+    let bio: String?
+    let userName: String
     
-    private struct ProfileResult: Decodable {
-        let firstName: String
-        let lastName: String
-        let bio: String?
-        let userName: String
-        
-        enum CodingKeys:String, CodingKey {
-            case bio
-            case userName = "username"
-            case firstName = "first_name"
-            case lastName = "last_name"
-        }
+    enum CodingKeys:String, CodingKey {
+        case bio
+        case userName = "username"
+        case firstName = "first_name"
+        case lastName = "last_name"
     }
 }
-

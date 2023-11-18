@@ -76,7 +76,8 @@ extension SplashViewController {
                 self.fetchProfile(token: token)
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
-                print(error.localizedDescription)
+                print(error)
+                self.showAlert()
             }
         })
     }
@@ -90,28 +91,48 @@ extension SplashViewController {
                 }
                 UIBlockingProgressHUD.dismiss()
                 self.switchToTabBarController()
-                
-               
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
                 print(error)
+                self.showAlert()
             }
         }
     }
     
     func fetchProfileImageURL(username: String){
-        var profileImageURL = ""
+        var profileImageURL: String? = nil
         ProfileImageService.shared.fetchProfileImageURL(username: username){ result in
             switch result {
+            case .success(let imageUrl):
+              profileImageURL = imageUrl
             case .failure(let error):
                 print(error)
-            case .success(let imageUrl):
-              profileImageURL = imageUrl 
+                self.showAlert()
             }
         }
         NotificationCenter.default.post(
             name: ProfileImageService.DidChangeNotification,
             object: self,
-            userInfo: ["URL": profileImageURL])
+            userInfo: ["URL": profileImageURL as Any])
+    }
+}
+
+extension SplashViewController {
+    func showAlert(){
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert)
+        let action = UIAlertAction(
+            title: "OK",
+            style: .cancel,
+            handler: {[weak self] _ in
+                guard let self else { return }
+                self.performSegue(
+                    withIdentifier: self.showAuthenticationScreenSegueIdentifier,
+                    sender: nil)
+            })
+        alert.addAction(action)
+        self.present(alert, animated: true)
     }
 }

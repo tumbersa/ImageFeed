@@ -32,7 +32,7 @@ final class OAuth2Service {
         task?.cancel()
         lastCode = code
         let request = authTokenRequest(code: code)
-        let task = object(for: request){ [weak self] result in
+        let task = urlSession.objectTask(for: request){[weak self] (result: Result<OAuthTokenResponceBody,Error>) in
             guard let self else {return}
             switch result {
             case .success(let body):
@@ -52,28 +52,6 @@ final class OAuth2Service {
 }
 
 extension OAuth2Service {
-    private func object(
-        for request: URLRequest,
-        completion: @escaping (Result<OAuthTokenResponceBody,Error>) -> Void
-    ) -> URLSessionTask{
-        let decoder = JSONDecoder()
-        return urlSession.data(for: request, completion:  { (result: Result<Data, Error>) in
-            switch result {
-            case .success(let data):
-                do {
-                    let object = try decoder.decode(OAuthTokenResponceBody.self,
-                        from: data
-                    )
-                    completion(.success(object))
-                } catch {
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        })
-    }
-    
     private func authTokenRequest(code: String) -> URLRequest{
         URLRequest.makeHTTPRequest(
             path:"/oauth/token" +
@@ -86,19 +64,18 @@ extension OAuth2Service {
             baseUrl: unspashUrl
         )
     }
-    
-    private struct OAuthTokenResponceBody:Decodable {
-        let accessToken: String
-        let tokenType: String
-        let scope: String
-        let createdAt: Int
-        
-        enum CodingKeys: String, CodingKey {
-            case accessToken = "access_token"
-            case tokenType = "token_type"
-            case scope
-            case createdAt = "created_at"
-        }
-    }
 }
 
+struct OAuthTokenResponceBody:Decodable {
+    let accessToken: String
+    let tokenType: String
+    let scope: String
+    let createdAt: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case tokenType = "token_type"
+        case scope
+        case createdAt = "created_at"
+    }
+}

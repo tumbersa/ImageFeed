@@ -20,7 +20,7 @@ final class ProfileImageService {
     private (set) var avatarURL: String?
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
-        
+        assert(Thread.isMainThread)
         if lastToken == token { return }
         task?.cancel()
         lastToken = token
@@ -31,7 +31,8 @@ final class ProfileImageService {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         
-        let task = object(for: request){ result in
+        let task = urlSession.objectTask(for: request){ [weak self] (result: Result<UserResults,Error>) in
+            guard let self else { return }
             switch result {
             case .success(let userResults):
                 let smallProfileImage = userResults.profileImage.small
@@ -50,30 +51,6 @@ final class ProfileImageService {
     
 }
 
-extension ProfileImageService {
-    private func object(
-    for request: URLRequest,
-    completion: @escaping (Result<UserResults,Error>) -> Void)
-    -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return urlSession.data(for: request) { (result: Result<Data,Error>) in
-            switch result {
-            case .success(let data):
-                do {
-                    let userResults = try decoder.decode(UserResults.self, from: data)
-                    completion(.success(userResults))
-                }
-                catch {
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-    
- 
-}
 struct UserResults: Decodable {
     let profileImage: UserResult
     

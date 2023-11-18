@@ -12,6 +12,7 @@ import WebKit
 fileprivate let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 
 final class WebViewViewController:UIViewController{
+    private var estimatedProgressObservation: NSKeyValueObservation?
     
     weak var delegate: WebViewViewControllerDelegate?
     
@@ -26,6 +27,14 @@ final class WebViewViewController:UIViewController{
         super.viewDidLoad()
         
         webView.navigationDelegate = self
+        
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+             options: [],
+             changeHandler: {[weak self] _, _ in
+                 guard let self else { return }
+                 self.updateProgress()
+             })
         
         loadWebView()
        
