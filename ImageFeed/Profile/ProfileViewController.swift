@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     private let profileImageService = ProfileImageService.shared
@@ -15,6 +16,8 @@ final class ProfileViewController: UIViewController {
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Avatar")
+        imageView.layer.masksToBounds = false
+        imageView.layer.cornerRadius = 35
         view.addSubview(imageView)
         return imageView
     }()
@@ -81,11 +84,19 @@ final class ProfileViewController: UIViewController {
         updateAvatar()
     }
     
+    
     private func updateAvatar(){
         guard let profileImageURL = profileImageService.avatarURL,
               let url = URL(string: profileImageURL)
         else { return }
-        // TODO: [Sprint 11] Обновить аватар, используя Kingfisher
+        print(url)
+        let processor = RoundCornerImageProcessor(cornerRadius: 35)
+        avatarImageView.kf.indicatorType = .activity
+        avatarImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "placeholder_avatar_image"),
+            options: [.processor(processor)]
+        )
     }
     
     @objc private func didTapLogoutButton(){
