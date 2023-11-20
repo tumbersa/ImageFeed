@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A4265B442B0B4902000AB331 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A4265B432B0B4902000AB331 /* Kingfisher */; };
+		A42733742B0BEBDF005961A3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42733732B0BEBDF005961A3 /* TabBarController.swift */; };
 		A43DA2E72AF6B7A8006575C3 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43DA2E62AF6B7A8006575C3 /* OAuth2Service.swift */; };
 		A445F1D72AE1AD7000507A38 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A445F1D62AE1AD7000507A38 /* ProfileViewController.swift */; };
 		A44AEB062AE2650C00842C04 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44AEB052AE2650C00842C04 /* SingleImageViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A42733732B0BEBDF005961A3 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		A43DA2E62AF6B7A8006575C3 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		A445F1D62AE1AD7000507A38 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A44AEB052AE2650C00842C04 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				A47854382AD03C3200299621 /* AppDelegate.swift */,
 				A478543A2AD03C3200299621 /* SceneDelegate.swift */,
 				A4A2FD572AF3B97A00447021 /* Constants.swift */,
+				A42733732B0BEBDF005961A3 /* TabBarController.swift */,
 				A45A0F712B07A4AC00C4C8B2 /* SplashViewController */,
 				A44FE1C22AF4D7A000FBDBC1 /* Auth */,
 				A4791D0D2AF7D7E000C27BDB /* ServiceAccessLayer */,
@@ -279,6 +282,7 @@
 				A4791D0C2AF7D7B300C27BDB /* URLRequest+Extensions.swift in Sources */,
 				A43DA2E72AF6B7A8006575C3 /* OAuth2Service.swift in Sources */,
 				A45A0F732B07A6A900C4C8B2 /* ProfileImageService.swift in Sources */,
+				A42733742B0BEBDF005961A3 /* TabBarController.swift in Sources */,
 				A4842D712AF79CBA009122B8 /* OAuth2TokenStorage.swift in Sources */,
 				A47EA6572B075D6600C1EF32 /* UIBlockingProgressHUD.swift in Sources */,
 			);

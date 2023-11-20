@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image Feed Vector" translatesAutoresizingMaskIntoConstraints="NO" id="kDK-LH-lhS">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_feed_vector" translatesAutoresizingMaskIntoConstraints="NO" id="kDK-LH-lhS">
                                 <rect key="frame" x="150" y="415" width="114" height="80"/>
                             </imageView>
                         </subviews>
@@ -36,6 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image Feed Vector" width="37.5" height="39"/>
+        <image name="image_feed_vector" width="37.5" height="39"/>
     </resources>
 </document>

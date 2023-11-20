@@ -18,7 +18,10 @@ final class OAuth2TokenStorage {
             return KeychainWrapper.standard.string(forKey: Keys.authToken.rawValue)
         }
         set{
-            guard let newValue else { return }
+            guard let newValue else { 
+                KeychainWrapper.standard.remove(forKey: KeychainWrapper.Key(rawValue: Keys.authToken.rawValue))
+                return
+            }
             let isSuccess = KeychainWrapper.standard.set(newValue, forKey: Keys.authToken.rawValue)
             guard isSuccess else {
                 print("The token was not saved")

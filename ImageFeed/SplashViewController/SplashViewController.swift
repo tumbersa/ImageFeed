@@ -17,21 +17,45 @@ final class SplashViewController: UIViewController {
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let tabBarViewControllerIdentifier = "TabBarViewController"
     
+    private lazy var imageFeedImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = .black
+        imageView.image = UIImage(named: "image_feed_vector")
+        imageView.contentMode = .scaleAspectFit
+        view.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 78).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 75).isActive = true
+       
+        return imageView
+    }()
+    
+    override func loadView() {
+        super.loadView()
+        
+        //oauth2TokenStorage.token = nil
+        _ = imageFeedImageView
+    }
+    
+    override func viewDidLoad() {
+        view.backgroundColor = .black
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //oauth2TokenStorage.token = nil
+        
         if let token = oauth2TokenStorage.token {
             UIBlockingProgressHUD.show()
             fetchProfile(token: token)
         } else {
-            performSegue(
-                withIdentifier: showAuthenticationScreenSegueIdentifier,
-                sender: nil)
+            segueToFlowAuth()
         }
     }
-    
-    
+
     private func switchToTabBarController(){
+       // self.dismiss(animated: true)
+        
         let window = UIApplication
             .shared
             .connectedScenes
@@ -46,20 +70,21 @@ final class SplashViewController: UIViewController {
 }
 
 extension SplashViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showAuthenticationScreenSegueIdentifier {
-            guard let viewController = segue.destination as?  AuthViewController else {
-                fatalError("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
-            }
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
+    private func segueToFlowAuth(){
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        
+        guard let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+            fatalError("Failed to segue to AuthViewController")
         }
+        viewController.delegate = self
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: true)
     }
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
-    func authViewController(didAuthenticateWithCode code: String) {
+    func authViewController(didAuthenticateWithCode code: String,_ vc: AuthViewController) {
+        vc.dismiss(animated: true)
         dismiss(animated: true) {[weak self] in
             guard let self else { return }
             UIBlockingProgressHUD.show()
