@@ -16,7 +16,7 @@ final class ProfileViewController: UIViewController {
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Avatar")
-        imageView.layer.masksToBounds = false
+        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 35
         view.addSubview(imageView)
         return imageView
@@ -89,7 +89,6 @@ final class ProfileViewController: UIViewController {
         guard let profileImageURL = profileImageService.avatarURL,
               let url = URL(string: profileImageURL)
         else { return }
-        print(url)
         let processor = RoundCornerImageProcessor(cornerRadius: 35)
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(
