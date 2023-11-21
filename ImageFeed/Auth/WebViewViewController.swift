@@ -93,7 +93,7 @@ extension WebViewViewController: WKNavigationDelegate {
 }
 
 private extension WebViewViewController {
-    func loadWebView(){
+    private func loadWebView(){
         var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
         urlComponents.queryItems = [
         URLQueryItem(name: "client_id", value: accessKey),

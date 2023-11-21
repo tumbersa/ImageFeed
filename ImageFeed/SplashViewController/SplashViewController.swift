@@ -10,12 +10,12 @@ import ProgressHUD
 
 final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
-    
+   
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
 
-    private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let tabBarViewControllerIdentifier = "TabBarViewController"
+    private var flagToSegue = true
     
     private lazy var imageFeedImageView: UIImageView = {
         let imageView = UIImageView()
@@ -35,27 +35,27 @@ final class SplashViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        //oauth2TokenStorage.token = nil
+        oauth2TokenStorage.token = nil
         _ = imageFeedImageView
-    }
-    
-    override func viewDidLoad() {
         view.backgroundColor = .black
     }
+    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let token = oauth2TokenStorage.token {
-            UIBlockingProgressHUD.show()
-            fetchProfile(token: token)
-        } else {
-            segueToFlowAuth()
+        if flagToSegue {
+            flagToSegue = false
+            if let token = oauth2TokenStorage.token {
+                UIBlockingProgressHUD.show()
+                fetchProfile(token: token)
+            } else {
+                segueToFlowAuth()
+            }
         }
     }
 
     private func switchToTabBarController(){
-       // self.dismiss(animated: true)
-        
         let window = UIApplication
             .shared
             .connectedScenes
@@ -94,7 +94,7 @@ extension SplashViewController: AuthViewControllerDelegate {
 }
 
 extension SplashViewController {
-    func fetchOAuthToken(_ code: String) {
+    private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code, completion: {result in
             switch result {
             case .success(let token):
@@ -106,7 +106,7 @@ extension SplashViewController {
             }
         })
     }
-    func fetchProfile(token: String) {
+    private func fetchProfile(token: String) {
         ProfileService.shared.fetchProfile(token){[weak self] result in
             guard let self else { return }
             switch result {
@@ -124,7 +124,7 @@ extension SplashViewController {
         }
     }
     
-    func fetchProfileImageURL(username: String){
+    private func fetchProfileImageURL(username: String){
         var profileImageURL: String? = nil
         ProfileImageService.shared.fetchProfileImageURL(username: username){ result in
             switch result {
@@ -143,7 +143,7 @@ extension SplashViewController {
 }
 
 extension SplashViewController {
-    func showAlert(){
+    private func showAlert(){
         let alert = UIAlertController(
             title: "Что-то пошло не так",
             message: "Не удалось войти в систему",
@@ -153,9 +153,7 @@ extension SplashViewController {
             style: .cancel,
             handler: {[weak self] _ in
                 guard let self else { return }
-                self.performSegue(
-                    withIdentifier: self.showAuthenticationScreenSegueIdentifier,
-                    sender: nil)
+                segueToFlowAuth()
             })
         alert.addAction(action)
         self.present(alert, animated: true)
