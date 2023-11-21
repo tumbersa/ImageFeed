@@ -25,6 +25,7 @@ final class AuthViewController: UIViewController {
         logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         return logoImageView
     }()
+    
     private lazy var loginButton: UIButton = {
         var loginButton = UIButton()
         loginButton.backgroundColor = .ypWhite

@@ -35,7 +35,6 @@ final class SplashViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        oauth2TokenStorage.token = nil
         _ = imageFeedImageView
         view.backgroundColor = .black
     }
@@ -55,6 +54,33 @@ final class SplashViewController: UIViewController {
         }
     }
 
+}
+
+extension SplashViewController: AuthViewControllerDelegate {
+    func authViewController(didAuthenticateWithCode code: String,_ vc: AuthViewController) {
+        vc.dismiss(animated: true)
+        dismiss(animated: true) {[weak self] in
+            guard let self else { return }
+            UIBlockingProgressHUD.show()
+            self.fetchOAuthToken(code)
+        }
+    }
+}
+
+//MARK: Navigation functions
+extension SplashViewController {
+    private func segueToFlowAuth(){
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        
+        guard let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+            fatalError("Failed to segue to AuthViewController")
+        }
+        viewController.delegate = self
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: true)
+    }
+    
+    
     private func switchToTabBarController(){
         let window = UIApplication
             .shared
@@ -69,30 +95,7 @@ final class SplashViewController: UIViewController {
     }
 }
 
-extension SplashViewController {
-    private func segueToFlowAuth(){
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        
-        guard let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
-            fatalError("Failed to segue to AuthViewController")
-        }
-        viewController.delegate = self
-        viewController.modalPresentationStyle = .fullScreen
-        self.present(viewController, animated: true)
-    }
-}
-
-extension SplashViewController: AuthViewControllerDelegate {
-    func authViewController(didAuthenticateWithCode code: String,_ vc: AuthViewController) {
-        vc.dismiss(animated: true)
-        dismiss(animated: true) {[weak self] in
-            guard let self else { return }
-            UIBlockingProgressHUD.show()
-            self.fetchOAuthToken(code)
-        }
-    }
-}
-
+// MARK: Fetch functions
 extension SplashViewController {
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code, completion: {result in
@@ -141,7 +144,7 @@ extension SplashViewController {
             userInfo: ["URL": profileImageURL as Any])
     }
 }
-
+// MARK: - Alert
 extension SplashViewController {
     private func showAlert(){
         let alert = UIAlertController(
