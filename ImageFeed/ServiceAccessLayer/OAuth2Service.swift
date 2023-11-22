@@ -38,11 +38,11 @@ final class OAuth2Service {
             case .success(let body):
                 let authToken = body.accessToken
                 self.authToken = authToken
-                completion(.success(authToken))
                 self.task = nil
+                completion(.success(authToken))
             case .failure(let error):
-                completion(.failure(error))
                 self.lastCode = nil
+                completion(.failure(error))
             }
             
         }
@@ -55,27 +55,14 @@ extension OAuth2Service {
     private func authTokenRequest(code: String) -> URLRequest{
         URLRequest.makeHTTPRequest(
             path:"/oauth/token" +
-            "?client_id=\(accessKey)" +
-            "&&client_secret=\(secretKey)" +
-            "&&redirect_uri=\(redirectURI)" +
+            "?client_id=\(Constants.accessKey)" +
+            "&&client_secret=\(Constants.secretKey)" +
+            "&&redirect_uri=\(Constants.redirectURI)" +
             "&&code=\(code)" +
             "&&grant_type=authorization_code",
             httpMethod: "POST",
-            baseUrl: unspashUrl
+            baseUrl: Constants.unspashUrl
         )
     }
 }
 
-struct OAuthTokenResponceBody:Decodable {
-    let accessToken: String
-    let tokenType: String
-    let scope: String
-    let createdAt: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case tokenType = "token_type"
-        case scope
-        case createdAt = "created_at"
-    }
-}

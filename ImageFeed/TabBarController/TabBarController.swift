@@ -21,5 +21,7 @@ final class TabBarController: UITabBarController {
             selectedImage: nil)
                                     
         self.viewControllers = [imagesListViewController,profileViewController]
+        
+        
     }
 }

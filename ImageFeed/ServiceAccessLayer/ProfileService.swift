@@ -7,12 +7,6 @@
 
 import Foundation
 
-struct Profile {
-    let userName: String
-    let name: String
-    let loginName: String
-    let bio: String?
-}
 
 final class ProfileService {
     static let shared = ProfileService()
@@ -40,11 +34,11 @@ final class ProfileService {
                     loginName:"@\(body.userName)",
                     bio: body.bio)
                 self.profile = profile
-                completion(.success(profile))
                 self.task = nil
+                completion(.success(profile))
             case .failure(let error):
-                completion(.failure(error))
                 self.lastToken = nil
+                completion(.failure(error))
             }
         }
         self.task = task
@@ -52,16 +46,3 @@ final class ProfileService {
     }
 }
 
-struct ProfileResult: Decodable {
-    let firstName: String
-    let lastName: String
-    let bio: String?
-    let userName: String
-    
-    enum CodingKeys:String, CodingKey {
-        case bio
-        case userName = "username"
-        case firstName = "first_name"
-        case lastName = "last_name"
-    }
-}

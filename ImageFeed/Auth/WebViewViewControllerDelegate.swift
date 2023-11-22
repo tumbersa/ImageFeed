@@ -6,6 +6,6 @@
 //
 
 protocol WebViewViewControllerDelegate: AnyObject {
-    func webViewViewController(didAuthenticateWithCode code: String,_ vc: WebViewViewController)
+    func webViewViewController(didAuthenticateWithCode code: String)
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
 }

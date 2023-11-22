@@ -8,5 +8,5 @@
 import Foundation
 
 protocol AuthViewControllerDelegate: AnyObject {
-    func authViewController(didAuthenticateWithCode code: String, _ vc: AuthViewController)
+    func authViewController(didAuthenticateWithCode code: String)
 }

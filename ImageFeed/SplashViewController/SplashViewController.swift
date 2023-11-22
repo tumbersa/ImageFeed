@@ -12,7 +12,7 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
    
     private let oauth2Service = OAuth2Service()
-    private let oauth2TokenStorage = OAuth2TokenStorage()
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
 
     private let tabBarViewControllerIdentifier = "TabBarViewController"
     private var flagToSegue = true
@@ -35,8 +35,9 @@ final class SplashViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
+       // OAuth2TokenStorage().token = nil
         _ = imageFeedImageView
-        view.backgroundColor = .black
+        view.backgroundColor = .ypBlack
     }
     
 
@@ -57,8 +58,8 @@ final class SplashViewController: UIViewController {
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
-    func authViewController(didAuthenticateWithCode code: String,_ vc: AuthViewController) {
-        vc.dismiss(animated: true)
+    func authViewController(didAuthenticateWithCode code: String) {
+       
         dismiss(animated: true) {[weak self] in
             guard let self else { return }
             UIBlockingProgressHUD.show()
@@ -73,7 +74,8 @@ extension SplashViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         
         guard let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
-            fatalError("Failed to segue to AuthViewController")
+            print("Failed to segue to AuthViewController")
+            return
         }
         viewController.delegate = self
         viewController.modalPresentationStyle = .fullScreen
@@ -129,7 +131,8 @@ extension SplashViewController {
     
     private func fetchProfileImageURL(username: String){
         var profileImageURL: String? = nil
-        ProfileImageService.shared.fetchProfileImageURL(username: username){ result in
+        ProfileImageService.shared.fetchProfileImageURL(username: username){[weak self] result in
+            guard let self else { return }
             switch result {
             case .success(let imageUrl):
               profileImageURL = imageUrl
@@ -139,7 +142,7 @@ extension SplashViewController {
             }
         }
         NotificationCenter.default.post(
-            name: ProfileImageService.DidChangeNotification,
+            name: Notification.Name.didChangeNotification,
             object: self,
             userInfo: ["URL": profileImageURL as Any])
     }

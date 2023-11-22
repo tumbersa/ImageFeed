@@ -13,6 +13,7 @@ final class OAuth2TokenStorage {
         case authToken 
     }
     
+    static let shared = OAuth2TokenStorage()
     var token: String? {
         get {
             return KeychainWrapper.standard.string(forKey: Keys.authToken.rawValue)
@@ -22,11 +23,8 @@ final class OAuth2TokenStorage {
                 KeychainWrapper.standard.remove(forKey: KeychainWrapper.Key(rawValue: Keys.authToken.rawValue))
                 return
             }
-            let isSuccess = KeychainWrapper.standard.set(newValue, forKey: Keys.authToken.rawValue)
-            guard isSuccess else {
-                print("The token was not saved")
-                return
-            }
+            KeychainWrapper.standard.set(newValue, forKey: Keys.authToken.rawValue)
+            
         }
     }
 }

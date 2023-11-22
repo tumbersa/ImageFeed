@@ -9,7 +9,6 @@ import UIKit
 import WebKit
 
 
-fileprivate let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 
 final class WebViewViewController:UIViewController{
     private var estimatedProgressObservation: NSKeyValueObservation?
@@ -52,7 +51,7 @@ extension WebViewViewController: WKNavigationDelegate {
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let code = code(from: navigationAction) {
-            delegate?.webViewViewController(didAuthenticateWithCode: code,self)
+            delegate?.webViewViewController(didAuthenticateWithCode: code)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
@@ -62,7 +61,7 @@ extension WebViewViewController: WKNavigationDelegate {
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if let url = navigationAction.request.url,
            let urlComponents = URLComponents(string: url.absoluteString),
-           urlComponents.path == pathToGetCode,
+           urlComponents.path == Constants.pathToGetCode,
            let items = urlComponents.queryItems,
            let codeItem = items.first(where: {$0.name == "code"})
         {
@@ -76,15 +75,16 @@ extension WebViewViewController: WKNavigationDelegate {
 
 private extension WebViewViewController {
     private func loadWebView(){
-        var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
+        var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString)!
         urlComponents.queryItems = [
-        URLQueryItem(name: "client_id", value: accessKey),
-        URLQueryItem(name: "redirect_uri", value: redirectURI),
+            URLQueryItem(name: "client_id", value: Constants.accessKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
         URLQueryItem(name: "response_type", value: "code"),
-        URLQueryItem(name: "scope", value: accessScope)
+            URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
         guard let url = urlComponents.url else {
-            fatalError("There is no url in url components")
+            print("There is no url in url components")
+            return
         }
         
         let request = URLRequest(url: url)

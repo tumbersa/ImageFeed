@@ -74,7 +74,7 @@ final class ProfileViewController: UIViewController {
         }
         
         profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.DidChangeNotification,
+            forName: Notification.Name.didChangeNotification,
             object: nil,
             queue: .main,
             using: { [weak self] _ in
@@ -96,6 +96,7 @@ final class ProfileViewController: UIViewController {
             placeholder: UIImage(named: "placeholder_avatar_image"),
             options: [.processor(processor)]
         )
+        
     }
     
     @objc private func didTapLogoutButton(){

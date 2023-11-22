@@ -8,7 +8,6 @@
 import Foundation
 
 final class ProfileImageService {
-    static let DidChangeNotification = Notification.Name("ProfileImageProviderDidChange")
     static let shared = ProfileImageService()
     
     private let urlSession = URLSession.shared
@@ -37,11 +36,11 @@ final class ProfileImageService {
             case .success(let userResults):
                 let smallProfileImage = userResults.profileImage.small
                 self.avatarURL = smallProfileImage
-                completion(.success(smallProfileImage ?? String()))
                 self.task = nil
+                completion(.success(smallProfileImage ?? String()))
             case .failure(let error):
-                completion(.failure(error))
                 self.lastToken = nil
+                completion(.failure(error))
             }
             
         }
@@ -51,15 +50,3 @@ final class ProfileImageService {
     
 }
 
-struct UserResults: Decodable {
-    let profileImage: UserResult
-    
-    enum CodingKeys: String, CodingKey {
-        case profileImage = "profile_image"
-    }
-}
-
-struct UserResult: Decodable {
-    let small: String?
-    
-}
