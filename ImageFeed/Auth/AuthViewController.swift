@@ -25,6 +25,7 @@ final class AuthViewController: UIViewController {
         logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         return logoImageView
     }()
+    
     private lazy var loginButton: UIButton = {
         var loginButton = UIButton()
         loginButton.backgroundColor = .ypWhite
@@ -75,9 +76,8 @@ final class AuthViewController: UIViewController {
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
-    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        vc.dismiss(animated: true)
-        delegate?.authViewController(self, didAuthenticateWithCode: code)
+    func webViewViewController(didAuthenticateWithCode code: String) {
+        delegate?.authViewController(didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

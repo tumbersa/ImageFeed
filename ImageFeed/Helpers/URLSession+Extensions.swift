@@ -10,17 +10,18 @@ import Foundation
 //MARK: - Network Connection
 
 enum NetworkError: Error {
+    case parseError
     case httpStatusCode(Int)
     case urlRequestError(Error)
     case urlSessionError
 }
 
 extension URLSession {
-    func data(
+    func objectTask<T: Decodable>(
         for request: URLRequest,
-        completion: @escaping (Result<Data,Error>) -> Void
+        completion: @escaping (Result<T,Error>) -> Void
     ) -> URLSessionTask{
-        let fulfiilCompletion: (Result<Data,Error>) -> Void = { result in
+        let fulfiilCompletion: (Result<T,Error>) -> Void = { result in
             DispatchQueue.main.async {
                 completion(result)
             }
@@ -32,7 +33,14 @@ extension URLSession {
                let statusCode = (responce as? HTTPURLResponse)?.statusCode
             {
                 if 200..<300 ~= statusCode {
-                    fulfiilCompletion(.success(data))
+                    do {
+                        let decoder = JSONDecoder()
+                        let result = try decoder.decode(T.self, from: data)
+                        fulfiilCompletion(.success(result))
+                    }
+                    catch {
+                        fulfiilCompletion(.failure(NetworkError.parseError))
+                    }
                 } else if !(200..<300).contains(statusCode) {
                     fulfiilCompletion(.failure(NetworkError.httpStatusCode(statusCode)))
                 } else if let error {
@@ -42,7 +50,6 @@ extension URLSession {
                 }
             }
         })
-        task.resume()
         return task
     }
 }

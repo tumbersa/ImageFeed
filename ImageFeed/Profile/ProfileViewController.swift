@@ -6,11 +6,18 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
+    private let profileImageService = ProfileImageService.shared
+    private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Avatar")
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 35
         view.addSubview(imageView)
         return imageView
     }()
@@ -52,6 +59,7 @@ final class ProfileViewController: UIViewController {
         return descriptionLabel
     }()
     
+   
     override func loadView() {
         super.loadView()
         configScreen()
@@ -60,10 +68,44 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypBlack
+        
+        if let profile = profileService.profile {
+            updateProfileDetails(profile: profile)
+        }
+        
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: Notification.Name.didChangeNotification,
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                guard let self else { return }
+                self.updateAvatar()
+            })
+        updateAvatar()
+    }
+    
+    
+    private func updateAvatar(){
+        guard let profileImageURL = profileImageService.avatarURL,
+              let url = URL(string: profileImageURL)
+        else { return }
+        let processor = RoundCornerImageProcessor(cornerRadius: 35)
+        avatarImageView.kf.indicatorType = .activity
+        avatarImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "placeholder_avatar_image"),
+            options: [.processor(processor)]
+        )
+        
     }
     
     @objc private func didTapLogoutButton(){
-        
+    }
+    
+    private func updateProfileDetails(profile: Profile) {
+        nameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
     }
     
     private func configScreen(){
