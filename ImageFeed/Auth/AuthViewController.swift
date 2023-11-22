@@ -49,29 +49,25 @@ final class AuthViewController: UIViewController {
         return loginButton
     }()
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showWebViewindentifier {
-            guard let viewController = segue.destination  as? WebViewViewController
-            else { fatalError("Failed to prepare for \(showWebViewindentifier)") }
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         congigScreen()
     }
     
     @objc private func didTapLoginButton(){
-        performSegue(withIdentifier: showWebViewindentifier, sender: nil)
+        segueToWeb()
     }
     private func congigScreen(){
         view.backgroundColor = .ypBlack
         _ = loginButton
         _ = logoImageView
+    }
+    
+    private func segueToWeb(){
+        let viewController = WebViewViewController()
+        viewController.delegate = self
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: true)
     }
 }
 

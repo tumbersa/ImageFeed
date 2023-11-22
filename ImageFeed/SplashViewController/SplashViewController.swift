@@ -19,7 +19,7 @@ final class SplashViewController: UIViewController {
     
     private lazy var imageFeedImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = .ypBlack
         imageView.image = UIImage(named: "image_feed_vector")
         imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)
@@ -71,12 +71,7 @@ extension SplashViewController: AuthViewControllerDelegate {
 //MARK: Navigation functions
 extension SplashViewController {
     private func segueToFlowAuth(){
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        
-        guard let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
-            print("Failed to segue to AuthViewController")
-            return
-        }
+        let viewController = AuthViewController()
         viewController.delegate = self
         viewController.modalPresentationStyle = .fullScreen
         self.present(viewController, animated: true)
@@ -92,7 +87,7 @@ extension SplashViewController {
         guard let window else {
             fatalError("Invalid Configuration")
         }
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: tabBarViewControllerIdentifier)
+        let tabBarController = TabBarController()
         window.rootViewController = tabBarController
     }
 }
