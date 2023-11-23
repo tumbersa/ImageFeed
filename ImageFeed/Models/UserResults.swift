@@ -17,5 +17,4 @@ struct UserResults: Decodable {
 
 struct UserResult: Decodable {
     let small: String?
-    
 }
