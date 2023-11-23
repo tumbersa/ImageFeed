@@ -61,6 +61,7 @@ final class ImagesListCell: UITableViewCell {
         cellGradient.layer.cornerRadius = 16
         cellGradient.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
      
+        
         contentView.addSubview(cellGradient)
         cellGradient.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -81,7 +82,6 @@ final class ImagesListCell: UITableViewCell {
         configCell()
     }
     private func configCell(){
-        contentView.backgroundColor = .ypBlack
         _ = cellImage
         _ = dateLabel
         _ = likeButton

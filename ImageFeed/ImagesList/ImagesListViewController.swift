@@ -7,7 +7,6 @@
 
 import UIKit
 
-//TODO: кривой градиент и белые полоски внизу ячеек
 class ImagesListViewController: UIViewController {
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
@@ -15,7 +14,7 @@ class ImagesListViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.separatorStyle = .none
+        
         
         tableView.backgroundColor = .ypBlack
         view.addSubview(tableView)
@@ -50,8 +49,9 @@ class ImagesListViewController: UIViewController {
 
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        cell.separatorInset = .zero
-        cell.contentView.backgroundColor = .ypBlack
+        cell.backgroundColor = .ypBlack
+        
+        cell.selectionStyle = .none
         guard let image = UIImage(named: photosName[indexPath.row]) else {
             return
         }
@@ -68,7 +68,7 @@ extension ImagesListViewController {
         
         gradient.frame = cell.cellGradient.bounds
         gradient.colors = [
-            UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.05).cgColor,
+            UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.01).cgColor,
             UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.1).cgColor]
         cell.cellGradient.layer.insertSublayer(gradient, at: 0)
         
@@ -97,13 +97,11 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SingleImageViewController")
-        if let viewController  = viewController as? SingleImageViewController {
-            let image = UIImage(named: self.photosName[indexPath.row])
-            viewController.image = image
-            viewController.modalPresentationStyle = .fullScreen
-            self.present(viewController, animated: true)
-        }
+        let viewController = SingleImageViewController()
+        let image = UIImage(named: self.photosName[indexPath.row])
+        viewController.image = image
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
