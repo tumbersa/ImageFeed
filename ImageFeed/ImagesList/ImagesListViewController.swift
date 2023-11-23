@@ -7,10 +7,27 @@
 
 import UIKit
 
+//TODO: кривой градиент и белые полоски внизу ячеек
 class ImagesListViewController: UIViewController {
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        
+        tableView.backgroundColor = .ypBlack
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        return tableView
+    }()
+    
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -19,26 +36,13 @@ class ImagesListViewController: UIViewController {
         return formatter
     }()
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showSingleImageSegueIdentifier {
-            let viewController = segue.destination as! SingleImageViewController
-            let indexPath = sender as? IndexPath
-            guard let indexPath else {
-                super.prepare(for: segue, sender: sender)
-                return
-            }
-            let image = UIImage(named: photosName[indexPath.row])
-            viewController.image = image
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-    }
-    
-    @IBOutlet private var tableView: UITableView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
+        view.backgroundColor = .ypBlack
+        _ = tableView
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
 }
@@ -59,7 +63,9 @@ extension ImagesListViewController {
         
         let gradient = CAGradientLayer()
         gradient.frame = cell.cellGradient.bounds
-        gradient.colors = [UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.0).cgColor, UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.1).cgColor]
+        gradient.colors = [
+            UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.0).cgColor,
+            UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.1).cgColor]
         cell.cellGradient.layer.insertSublayer(gradient, at: 0)
     }
 }
@@ -70,6 +76,8 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
 
         guard let imageListCell = cell as? ImagesListCell else {
@@ -84,7 +92,13 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
+        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SingleImageViewController")
+        if let viewController  = viewController as? SingleImageViewController {
+            let image = UIImage(named: self.photosName[indexPath.row])
+            viewController.image = image
+            viewController.modalPresentationStyle = .fullScreen
+            self.present(viewController, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
