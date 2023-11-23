@@ -56,8 +56,11 @@ final class ImagesListCell: UITableViewCell {
     lazy var cellGradient: UIView = {
         let cellGradient = UIView()
        // cellGradient.contentMode = .scaleToFill
+        
         cellGradient.layer.masksToBounds = true
         cellGradient.layer.cornerRadius = 16
+        cellGradient.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+     
         contentView.addSubview(cellGradient)
         cellGradient.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -15,6 +15,7 @@ class ImagesListViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
         
         tableView.backgroundColor = .ypBlack
         view.addSubview(tableView)
@@ -49,6 +50,8 @@ class ImagesListViewController: UIViewController {
 
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+        cell.separatorInset = .zero
+        cell.contentView.backgroundColor = .ypBlack
         guard let image = UIImage(named: photosName[indexPath.row]) else {
             return
         }
@@ -62,11 +65,13 @@ extension ImagesListViewController {
         }
         
         let gradient = CAGradientLayer()
+        
         gradient.frame = cell.cellGradient.bounds
         gradient.colors = [
-            UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.0).cgColor,
+            UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.05).cgColor,
             UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.1).cgColor]
         cell.cellGradient.layer.insertSublayer(gradient, at: 0)
+        
     }
 }
 
