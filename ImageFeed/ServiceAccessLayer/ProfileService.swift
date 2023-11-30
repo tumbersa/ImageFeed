@@ -14,14 +14,13 @@ final class ProfileService {
     private (set) var profile: Profile?
     let urlSession = URLSession.shared
     
-    private var task: URLSessionTask?
-    private var lastToken: String?
+    private var prevTask: URLSessionTask?
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void){
         assert(Thread.isMainThread)
-        if lastToken == token { return }
-        task?.cancel()
-        lastToken = token
+        if let prevTask {
+            return
+        }
         var request = URLRequest.makeHTTPRequest(path: "/me")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         let task = urlSession.objectTask(for: request){[weak self] (result: Result<ProfileResult,Error>) in
@@ -34,14 +33,14 @@ final class ProfileService {
                     loginName:"@\(body.userName)",
                     bio: body.bio)
                 self.profile = profile
-                self.task = nil
+                self.prevTask = nil
                 completion(.success(profile))
             case .failure(let error):
-                self.lastToken = nil
+                self.prevTask = nil
                 completion(.failure(error))
             }
         }
-        self.task = task
+        self.prevTask = task
         task.resume()
     }
 }

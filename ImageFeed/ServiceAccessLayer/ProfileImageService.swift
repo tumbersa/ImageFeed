@@ -13,16 +13,15 @@ final class ProfileImageService {
     private let urlSession = URLSession.shared
     private let token = OAuth2TokenStorage().token
     
-    private var task: URLSessionTask?
-    private var lastToken: String?
+    private var prevTask: URLSessionTask?
     
     private (set) var avatarURL: String?
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
-        if lastToken == token { return }
-        task?.cancel()
-        lastToken = token
+        if let prevTask {
+            return
+        }
         
         var request = URLRequest.makeHTTPRequest(path:
             "/users/\(username)")
@@ -36,15 +35,15 @@ final class ProfileImageService {
             case .success(let userResults):
                 let smallProfileImage = userResults.profileImage.small
                 self.avatarURL = smallProfileImage
-                self.task = nil
+                self.prevTask = nil
                 completion(.success(smallProfileImage ?? String()))
             case .failure(let error):
-                self.lastToken = nil
+                self.prevTask = nil
                 completion(.failure(error))
             }
             
         }
-        self.task = task
+        self.prevTask = task
         task.resume()
     }
     

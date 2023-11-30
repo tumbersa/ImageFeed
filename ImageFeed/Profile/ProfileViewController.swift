@@ -9,6 +9,10 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
+    
+    private let imagesListService = ImagesListService.shared
+    
+    
     private let profileImageService = ProfileImageService.shared
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -74,7 +78,7 @@ final class ProfileViewController: UIViewController {
         }
         
         profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: Notification.Name.didChangeNotification,
+            forName: Notification.Name.didChangeNotificationProfile,
             object: nil,
             queue: .main,
             using: { [weak self] _ in
@@ -100,6 +104,14 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func didTapLogoutButton(){
+        imagesListService.fetchPhotosNextPage { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     private func updateProfileDetails(profile: Profile) {
