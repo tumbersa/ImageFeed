@@ -20,7 +20,7 @@ class ImagesListService{
     
     func fetchPhotosNextPage(_ completion: @escaping (Result<[Photo], Error>) -> Void){
         assert(Thread.isMainThread)
-        if let prevTask {
+        if prevTask != nil {
             return
         }
         
@@ -38,7 +38,7 @@ class ImagesListService{
             
             switch result{
             case .success(let photoResults):
-                for i in 0...9 {
+                for i in 0...(photoResults.count - 1) {
                     let photoResult = photoResults[i]
                     
                     var datePhoto: Date? = nil

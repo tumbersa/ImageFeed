@@ -78,11 +78,6 @@ final class WebViewViewController:UIViewController{
         updateProgress()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print("break")
-    }
     
     private func updateProgress(){
         progressView.progress = Float(webView.estimatedProgress)

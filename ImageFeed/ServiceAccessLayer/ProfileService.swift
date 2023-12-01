@@ -18,7 +18,7 @@ final class ProfileService {
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void){
         assert(Thread.isMainThread)
-        if let prevTask {
+        if prevTask != nil {
             return
         }
         var request = URLRequest.makeHTTPRequest(path: "/me")
