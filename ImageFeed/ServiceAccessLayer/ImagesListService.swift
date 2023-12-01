@@ -18,7 +18,7 @@ class ImagesListService{
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
     
-    func fetchPhotosNextPage(_ completion: @escaping (Result<[Photo], Error>) -> Void){
+    func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
         if prevTask != nil {
             return
@@ -66,10 +66,9 @@ class ImagesListService{
                     object: self,
                     userInfo: ["Photo": photos as Any])
                 
-                completion(.success(photos))
             case .failure(let error):
                 self.prevTask = nil
-                completion(.failure(error))
+                print(error)
             }
         }
         
