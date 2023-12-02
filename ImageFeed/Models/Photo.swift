@@ -17,6 +17,9 @@ struct Photo {
     let isLiked: Bool
 }
 
+struct ChangeLikeResult: Decodable {
+    let photo: PhotoResult
+}
 
 struct PhotoResult: Decodable {
     let id: String

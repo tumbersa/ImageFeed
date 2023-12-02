@@ -9,6 +9,8 @@ import UIKit
 import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
+    weak var delegate: ImagesListCellDelegate?
+    
     static let reuseIdentifier = "ImagesListCell"
     
     lazy var cellImage: UIImageView = {
@@ -94,5 +96,23 @@ final class ImagesListCell: UITableViewCell {
         _ = dateLabel
         _ = likeButton
         _ = cellGradient
+        
+        likeButton.addTarget(
+            self,
+            action: #selector(likeButtonClicked),
+            for: .touchUpInside)
+    }
+    
+    @objc private func likeButtonClicked(){
+        delegate?.imageListCellDidTapLike(self)
+    }
+    
+    func setIsLiked(_ isLiked: Bool){
+        if isLiked {
+            likeButton.setImage(UIImage(named: "Active Like"), for: .normal)
+        } else {
+            likeButton.setImage(UIImage(named: "No Active Like"), for: .normal)
+        }
+            
     }
 }

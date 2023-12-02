@@ -77,6 +77,8 @@ extension ImagesListViewController {
         cell.backgroundColor = .ypBlack
         cell.selectionStyle = .none
         
+        cell.delegate = self
+        
         let url = URL(string:  photos[indexPath.row].thumbImageURL)
         guard let url else { return }
         
@@ -91,11 +93,8 @@ extension ImagesListViewController {
         }
         
         cell.dateLabel.text = dateFormatter.string(from: Date())
-        if indexPath.row % 2 == 0 {
-            cell.likeButton.setImage(UIImage(named: "Active Like"), for: .normal)
-        } else {
-            cell.likeButton.setImage(UIImage(named: "No Active Like"), for: .normal)
-        }
+
+        cell.likeButton.setImage(UIImage(named: "No Active Like"), for: .normal)
         
         let gradient = CAGradientLayer()
         
@@ -105,7 +104,11 @@ extension ImagesListViewController {
             UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.05).cgColor]
         cell.cellGradient.layer.insertSublayer(gradient, at: 0)
         
+        
+        
     }
+    
+    
 }
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -135,8 +138,6 @@ extension ImagesListViewController: UITableViewDataSource {
 }
 
 extension ImagesListViewController: UITableViewDelegate {
-   
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = SingleImageViewController()
         
@@ -157,7 +158,6 @@ extension ImagesListViewController: UITableViewDelegate {
             }
         }
         
-        
         viewController.image = image
         viewController.modalPresentationStyle = .fullScreen
         self.present(viewController, animated: true)
@@ -167,5 +167,43 @@ extension ImagesListViewController: UITableViewDelegate {
         let imageSize = photos[indexPath.row].size
         
         return imageSize.height * ( tableView.frame.width / imageSize.width)
+    }
+}
+
+
+extension ImagesListViewController:ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        let photo = photos[indexPath.row]
+        imagesListService.changeLike(
+            photoId: photo.id,
+            isLike: !photo.isLiked) {[weak self] (result:Result<Void, Error>) in
+                guard let self else {return}
+                switch result{
+                case .success():
+                    cell.setIsLiked(!photo.isLiked)
+                    self.updatePhotos(index: indexPath.row)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+    }
+    
+    private func updatePhotos(index: Int){
+        let photo = self.photos[index]
+        
+        let newPhoto = Photo(
+            id: photo.id,
+            size: photo.size,
+            createdAt: photo.createdAt,
+            welcomeDescription: photo.welcomeDescription,
+            thumbImageURL: photo.thumbImageURL,
+            largeImageURL: photo.largeImageURL,
+            isLiked: !photo.isLiked
+        )
+        
+        photos[index] = newPhoto
     }
 }

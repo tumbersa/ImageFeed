@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class SingleImageViewController: UIViewController {
     var image: UIImage! {
@@ -112,6 +113,7 @@ final class SingleImageViewController: UIViewController {
     }
     
      @objc private func didTapBackButton() {
+        ProgressHUD.dismiss()
         dismiss(animated: true, completion: nil)
     }
     

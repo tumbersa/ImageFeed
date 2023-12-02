@@ -29,9 +29,8 @@ class ImagesListService{
         lastLoadedPage = nextPage
         
         var request = URLRequest.makeHTTPRequest(path: "/photos?page=\(nextPage)")
-        if let token {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
+        
+        setToken(request: &request)
         
         let task = urlSession.objectTask(for: request) {[weak self] (result: Result<[PhotoResult], Error>) in
             guard let self else { return }
@@ -76,6 +75,48 @@ class ImagesListService{
         task.resume()
     }
     
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        if isLike{
+        var request = URLRequest.makeHTTPRequest(
+            path: "/photos/\(photoId)/like",
+            httpMethod: "POST")
+        
+        setToken(request: &request)
+        
+        let task = urlSession.objectTask(for: request) { (result:Result<ChangeLikeResult, Error>) in
+            switch result{
+            case .success(_):
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+        } else {
+            var request = URLRequest.makeHTTPRequest(
+                path: "/photos/\(photoId)/like",
+                httpMethod: "DELETE")
+            
+            setToken(request: &request)
+            
+            let task = urlSession.objectTask(for: request) { (result:Result<ChangeLikeResult, Error>) in
+                switch result{
+                case .success(_):
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    
+    private func setToken( request: inout URLRequest){
+        if let token {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+    }
 }
 
 
