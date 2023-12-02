@@ -94,7 +94,11 @@ extension ImagesListViewController {
         
         cell.dateLabel.text = dateFormatter.string(from: Date())
 
-        cell.likeButton.setImage(UIImage(named: "No Active Like"), for: .normal)
+        if photos[indexPath.row].isLiked {
+            cell.likeButton.setImage(UIImage(named: "Active Like"), for: .normal)
+        } else {
+            cell.likeButton.setImage(UIImage(named: "No Active Like"), for: .normal)
+        }
         
         let gradient = CAGradientLayer()
         
@@ -141,24 +145,9 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = SingleImageViewController()
         
-        var image: UIImage = UIImage(named: "stub") ?? UIImage()
-        let url = URL(string:  self.photos[indexPath.row].largeImageURL)
-        guard let url else { return }
-        ProgressHUD.animate("Please wait...", .barSweepToggle)
-        KingfisherManager.shared.retrieveImage(with: url){result in
-            switch result{
-            case .success(let successResult):
-                DispatchQueue.main.async {
-                    image = successResult.image
-                    viewController.image = image
-                    ProgressHUD.dismiss()
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
         
-        viewController.image = image
+        viewController.fullImageUrl = photos[indexPath.row].largeImageURL
+       
         viewController.modalPresentationStyle = .fullScreen
         self.present(viewController, animated: true)
     }
@@ -177,6 +166,7 @@ extension ImagesListViewController:ImagesListCellDelegate {
             return
         }
         let photo = photos[indexPath.row]
+        UIBlockingProgressHUD.show()
         imagesListService.changeLike(
             photoId: photo.id,
             isLike: !photo.isLiked) {[weak self] (result:Result<Void, Error>) in
@@ -185,10 +175,26 @@ extension ImagesListViewController:ImagesListCellDelegate {
                 case .success():
                     cell.setIsLiked(!photo.isLiked)
                     self.updatePhotos(index: indexPath.row)
+                    UIBlockingProgressHUD.dismiss()
                 case .failure(let error):
                     print(error)
+                    UIBlockingProgressHUD.dismiss()
+                    showAlert()
                 }
             }
+    }
+    private func showAlert(){
+        let alert = UIAlertController(
+            title: "Что-то пошло не так 🙂",
+            message: nil,
+            preferredStyle: .alert)
+        let action = UIAlertAction(
+            title: "OK",
+            style: .cancel,
+            handler: { _ in
+            })
+        alert.addAction(action)
+        self.present(alert, animated: true)
     }
     
     private func updatePhotos(index: Int){

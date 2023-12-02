@@ -100,7 +100,19 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func didTapLogoutButton(){
+        OAuth2TokenStorage.shared.token = nil
+        WebViewViewController.clean()
         
+        let window = UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }.first
+        guard let window else {
+            fatalError("Invalid Configuration")
+        }
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
     }
     
     private func updateProfileDetails(profile: Profile) {

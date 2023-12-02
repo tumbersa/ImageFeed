@@ -35,7 +35,6 @@ final class SplashViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-       // OAuth2TokenStorage().token = nil
         _ = imageFeedImageView
         view.backgroundColor = .ypBlack
     }
