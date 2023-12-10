@@ -28,7 +28,6 @@ class ImagesListViewController: UIViewController {
         return tableView
     }()
     
-    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -92,8 +91,9 @@ extension ImagesListViewController {
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
         
-        cell.dateLabel.text = dateFormatter.string(from: Date())
-
+        if let dateToString = photos[indexPath.row].createdAt {
+            cell.dateLabel.text = dateFormatter.string(from: dateToString)
+        }
         if photos[indexPath.row].isLiked {
             cell.likeButton.setImage(UIImage(named: "Active Like"), for: .normal)
         } else {

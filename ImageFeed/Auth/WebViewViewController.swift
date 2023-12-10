@@ -40,6 +40,7 @@ final class WebViewViewController:UIViewController{
         return progressView
     }()
     
+    
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
         view.addSubview(webView)
@@ -78,17 +79,6 @@ final class WebViewViewController:UIViewController{
         updateProgress()
     }
     
-    static func clean() {
-       // Очищаем все куки из хранилища.
-       HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-       // Запрашиваем все данные из локального хранилища.
-       WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
-          // Массив полученных записей удаляем из хранилища.
-          records.forEach { record in
-             WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-          }
-       }
-    }
     
     
     private func updateProgress(){

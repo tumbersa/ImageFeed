@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import WebKit
 
 final class ProfileViewController: UIViewController {
     private let profileImageService = ProfileImageService.shared
@@ -100,8 +101,31 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func didTapLogoutButton(){
-        OAuth2TokenStorage.shared.token = nil
-        WebViewViewController.clean()
+        let alert = UIAlertController(
+            title: "Пока, пока!",
+            message: "Вы уверены, что хотите выйти?",
+            preferredStyle: .alert)
+        
+        
+        let actionStay = UIAlertAction(
+            title: "Нет",
+            style: .cancel)
+        
+        let actionLogout = UIAlertAction(
+            title: "Да",
+            style: .default) {[weak self] _ in
+                self?.logout()
+            }
+        
+        alert.addAction(actionLogout)
+        alert.addAction(actionStay)
+        
+        alert.preferredAction = actionStay
+        present(alert, animated: true)
+    }
+    
+    private func logout(){
+        self.clean()
         
         let window = UIApplication
             .shared
@@ -113,6 +137,19 @@ final class ProfileViewController: UIViewController {
         }
         let splashViewController = SplashViewController()
         window.rootViewController = splashViewController
+    }
+    
+    private func clean() {
+       OAuth2TokenStorage.shared.token = nil
+       // Очищаем все куки из хранилища.
+       HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+       // Запрашиваем все данные из локального хранилища.
+       WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+          // Массив полученных записей удаляем из хранилища.
+          records.forEach { record in
+             WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+          }
+       }
     }
     
     private func updateProfileDetails(profile: Profile) {

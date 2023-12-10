@@ -125,6 +125,7 @@ final class SingleImageViewController: UIViewController {
         alert.addAction(actionExit)
         alert.addAction(actionReload)
         
+        alert.preferredAction = actionReload
         present(alert, animated: true)
     }
 

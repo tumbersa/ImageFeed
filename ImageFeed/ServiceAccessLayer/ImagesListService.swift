@@ -41,9 +41,9 @@ class ImagesListService{
                     let photoResult = photoResults[i]
                     
                     var datePhoto: Date? = nil
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-                    if let dateString = photoResult.createdAt, 
+                    let dateFormatter = ISO8601DateFormatter()
+                    dateFormatter.formatOptions = [.withInternetDateTime]
+                    if let dateString = photoResult.createdAt,
                         let date = dateFormatter.date(from: dateString) {
                             datePhoto = date
                     }
