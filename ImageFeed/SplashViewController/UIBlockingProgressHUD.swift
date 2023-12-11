@@ -15,7 +15,7 @@ final class UIBlockingProgressHUD {
     
     static func show(){
         window?.isUserInteractionEnabled = false
-        ProgressHUD.animate("Please wait...", .barSweepToggle)
+        ProgressHUD.animate()
     }
     
     static func dismiss(){

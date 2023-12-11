@@ -6,15 +6,10 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class SingleImageViewController: UIViewController {
-    var image: UIImage! {
-        didSet {
-            guard isViewLoaded else { return }
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
-        }
-    }
+    var fullImageUrl: String = ""
     
     private lazy var backButton: UIButton = {
         let backButton = UIButton()
@@ -83,15 +78,57 @@ final class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         
         
+        setImage()
+        
         scrollView.delegate = self
         configScreen()
-        imageView.image = image
         
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         
-        rescaleAndCenterImageInScrollView(image: image)
     }
+    
+    private func setImage(){
+        UIBlockingProgressHUD.show()
+        let url = URL(string:fullImageUrl)
+        guard let url else { return }
+        imageView.kf.setImage(with: url) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.showError()
+            }
+        }
+    }
+    
+    func showError(){
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Попробовать ещё раз?",
+            preferredStyle: .alert)
+        let actionExit = UIAlertAction(
+            title: "Не надо",
+            style: .cancel) { [weak self] _ in
+                guard let self else { return }
+                self.didTapBackButton()
+            }
+        let actionReload = UIAlertAction(
+            title: "Повторить",
+            style: .default) { [weak self] _ in
+                guard let self else { return }
+                self.setImage()
+            }
+        alert.addAction(actionExit)
+        alert.addAction(actionReload)
+        
+        alert.preferredAction = actionReload
+        present(alert, animated: true)
+    }
+
     
     private func configScreen(){
         _ = scrollView
@@ -116,7 +153,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     @objc private func didTapShareButton(){
-        let vc = UIActivityViewController(activityItems: [self.image as Any], applicationActivities: nil)
+        let vc = UIActivityViewController(activityItems: [self.imageView.image as Any], applicationActivities: nil)
         vc.popoverPresentationController?.sourceView = self.view
                 
         self.present(vc, animated: true, completion: nil)

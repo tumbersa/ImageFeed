@@ -40,6 +40,7 @@ final class WebViewViewController:UIViewController{
         return progressView
     }()
     
+    
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
         view.addSubview(webView)
@@ -78,11 +79,7 @@ final class WebViewViewController:UIViewController{
         updateProgress()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print("break")
-    }
+    
     
     private func updateProgress(){
         progressView.progress = Float(webView.estimatedProgress)
@@ -129,7 +126,10 @@ extension WebViewViewController: WKNavigationDelegate {
 
 private extension WebViewViewController {
     private func loadWebView(){
-        var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString)!
+        let urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString)
+        guard var urlComponents else {
+            return
+        }
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
             URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),

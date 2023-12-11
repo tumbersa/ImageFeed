@@ -10,7 +10,6 @@ import Foundation
 //MARK: - Network Connection
 
 enum NetworkError: Error {
-    case parseError
     case httpStatusCode(Int)
     case urlRequestError(Error)
     case urlSessionError
@@ -38,8 +37,8 @@ extension URLSession {
                         let result = try decoder.decode(T.self, from: data)
                         fulfiilCompletion(.success(result))
                     }
-                    catch {
-                        fulfiilCompletion(.failure(NetworkError.parseError))
+                    catch let error {
+                        fulfiilCompletion(.failure(error))
                     }
                 } else if !(200..<300).contains(statusCode) {
                     fulfiilCompletion(.failure(NetworkError.httpStatusCode(statusCode)))

@@ -8,6 +8,9 @@
 import Foundation
 
 extension Notification.Name {
-    static let didChangeNotification =
+    static let didChangeNotificationProfile =
     Notification.Name("ProfileImageProviderDidChange")
+    
+    static let didChangeNotificationImages =
+    Notification.Name("ImagesListServiceDidChange")
 }

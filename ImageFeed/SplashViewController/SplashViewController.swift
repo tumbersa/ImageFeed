@@ -35,7 +35,6 @@ final class SplashViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-       // OAuth2TokenStorage().token = nil
         _ = imageFeedImageView
         view.backgroundColor = .ypBlack
     }
@@ -56,6 +55,7 @@ final class SplashViewController: UIViewController {
     }
 
 }
+
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(didAuthenticateWithCode code: String) {
@@ -137,7 +137,7 @@ extension SplashViewController {
             }
         }
         NotificationCenter.default.post(
-            name: Notification.Name.didChangeNotification,
+            name: Notification.Name.didChangeNotificationProfile,
             object: self,
             userInfo: ["URL": profileImageURL as Any])
     }
