@@ -71,16 +71,15 @@ class ImagesListViewController: UIViewController {
     }
 }
 
+//MARK: - configCell
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         cell.backgroundColor = .ypBlack
         cell.selectionStyle = .none
-        
         cell.delegate = self
         
         let url = URL(string:  photos[indexPath.row].thumbImageURL)
         guard let url else { return }
-        
         let imageLoading = UIImage(named: "stub")
         if let data = imageLoading?.pngData() {
             cell.cellImage.kf.indicatorType = .image(imageData: data)
@@ -93,7 +92,10 @@ extension ImagesListViewController {
         
         if let dateToString = photos[indexPath.row].createdAt {
             cell.dateLabel.text = dateFormatter.string(from: dateToString)
+        } else {
+            cell.dateLabel.text = ""
         }
+        
         if photos[indexPath.row].isLiked {
             cell.likeButton.setImage(UIImage(named: "Active Like"), for: .normal)
         } else {
@@ -101,18 +103,12 @@ extension ImagesListViewController {
         }
         
         let gradient = CAGradientLayer()
-        
         gradient.frame = cell.cellGradient.bounds
         gradient.colors = [
             UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.01).cgColor,
             UIColor(red: 26.0 / 255.0, green: 27.0 / 255.0, blue: 34.0 / 255.0, alpha: 0.05).cgColor]
         cell.cellGradient.layer.insertSublayer(gradient, at: 0)
-        
-        
-        
     }
-    
-    
 }
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -124,13 +120,13 @@ extension ImagesListViewController: UITableViewDataSource {
         
         tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-
+        
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-
+        
         configCell(for: imageListCell, with: indexPath)
-
+        
         return imageListCell
     }
     
@@ -147,7 +143,7 @@ extension ImagesListViewController: UITableViewDelegate {
         
         
         viewController.fullImageUrl = photos[indexPath.row].largeImageURL
-       
+        
         viewController.modalPresentationStyle = .fullScreen
         self.present(viewController, animated: true)
     }
@@ -159,7 +155,7 @@ extension ImagesListViewController: UITableViewDelegate {
     }
 }
 
-
+//MARK: - ImagesListCellDelegate
 extension ImagesListViewController:ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {

@@ -133,7 +133,8 @@ final class ProfileViewController: UIViewController {
             .compactMap { $0 as? UIWindowScene }
             .flatMap { $0.windows }.first
         guard let window else {
-            fatalError("Invalid Configuration")
+            assertionFailure("Invalid Configuration")
+            return
         }
         let splashViewController = SplashViewController()
         window.rootViewController = splashViewController

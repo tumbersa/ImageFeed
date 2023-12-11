@@ -10,6 +10,10 @@ import Foundation
 class ImagesListService{
     static let shared = ImagesListService()
     
+    private init (){
+        dateFormatter.formatOptions = [.withInternetDateTime]
+    }
+    private let dateFormatter = ISO8601DateFormatter()
     private let urlSession = URLSession.shared
     private let token = OAuth2TokenStorage().token
     
@@ -41,11 +45,10 @@ class ImagesListService{
                     let photoResult = photoResults[i]
                     
                     var datePhoto: Date? = nil
-                    let dateFormatter = ISO8601DateFormatter()
-                    dateFormatter.formatOptions = [.withInternetDateTime]
+                    
                     if let dateString = photoResult.createdAt,
-                        let date = dateFormatter.date(from: dateString) {
-                            datePhoto = date
+                       let date = dateFormatter.date(from: dateString) {
+                        datePhoto = date
                     }
                     
                     let photo = Photo(
@@ -76,10 +79,9 @@ class ImagesListService{
     }
     
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
-        if isLike{
         var request = URLRequest.makeHTTPRequest(
             path: "/photos/\(photoId)/like",
-            httpMethod: "POST")
+            httpMethod: isLike ? "POST" : "DELETE")
         
         setToken(request: &request)
         
@@ -92,23 +94,6 @@ class ImagesListService{
             }
         }
         task.resume()
-        } else {
-            var request = URLRequest.makeHTTPRequest(
-                path: "/photos/\(photoId)/like",
-                httpMethod: "DELETE")
-            
-            setToken(request: &request)
-            
-            let task = urlSession.objectTask(for: request) { (result:Result<ChangeLikeResult, Error>) in
-                switch result{
-                case .success(_):
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
-            task.resume()
-        }
     }
     
     
