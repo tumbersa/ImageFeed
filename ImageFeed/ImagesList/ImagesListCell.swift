@@ -104,10 +104,27 @@ final class ImagesListCell: UITableViewCell {
     }
     
     @objc private func likeButtonClicked(){
+        UIView.animateKeyframes(withDuration: 1, delay: 0,options: [.repeat]) {[weak self] in
+            guard let self else { return }
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) {
+                self.likeButton.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.1) {
+                self.likeButton.transform = .identity
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.4) {
+                self.likeButton.transform = CGAffineTransform(scaleX: 1.25, y: 1.25)
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.9, relativeDuration: 0.1) {
+                self.likeButton.transform = .identity
+            }
+        }
+        
         delegate?.imageListCellDidTapLike(self)
     }
     
     func setIsLiked(_ isLiked: Bool){
+        likeButton.layer.removeAllAnimations()
         if isLiked {
             likeButton.setImage(UIImage(named: "Active Like"), for: .normal)
         } else {
