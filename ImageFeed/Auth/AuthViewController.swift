@@ -64,7 +64,9 @@ final class AuthViewController: UIViewController {
     }
     
     private func segueToWeb(){
+        let webViewPresenter = WebViewPresenter(authHelper: AuthHelper())
         let viewController = WebViewViewController()
+        viewController.presenter = webViewPresenter
         viewController.delegate = self
         viewController.modalPresentationStyle = .fullScreen
         self.present(viewController, animated: true)
