@@ -7,19 +7,27 @@
 
 import UIKit
 import Kingfisher
-import WebKit
 
-final class ProfileViewController: UIViewController {
-    private let profileImageService = ProfileImageService.shared
+
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewPresenterProtocol? { get set}
+    
+    func logout()
+}
+
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+    
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    
+    var presenter: ProfileViewPresenterProtocol?
     
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Avatar")
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 35
-        view.addSubview(imageView)
         return imageView
     }()
     
@@ -29,7 +37,6 @@ final class ProfileViewController: UIViewController {
             target: self,
             action: #selector(didTapLogoutButton))
         button.tintColor = .ypRed
-        view.addSubview(button)
         return button
     }()
     
@@ -38,7 +45,6 @@ final class ProfileViewController: UIViewController {
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = .ypWhite
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
-        view.addSubview(nameLabel)
         return nameLabel
     }()
     
@@ -47,7 +53,6 @@ final class ProfileViewController: UIViewController {
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.textColor = .ypGray
         loginNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        view.addSubview(loginNameLabel)
         return loginNameLabel
     }()
     
@@ -56,7 +61,6 @@ final class ProfileViewController: UIViewController {
          descriptionLabel.text = "Hello, world!"
          descriptionLabel.textColor = .ypWhite
          descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-         view.addSubview(descriptionLabel)
         return descriptionLabel
     }()
     
@@ -87,9 +91,7 @@ final class ProfileViewController: UIViewController {
     
     
     private func updateAvatar(){
-        guard let profileImageURL = profileImageService.avatarURL,
-              let url = URL(string: profileImageURL)
-        else { return }
+        let url = presenter?.makeProfileImageURL()
         let processor = RoundCornerImageProcessor(cornerRadius: 35)
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(
@@ -97,61 +99,14 @@ final class ProfileViewController: UIViewController {
             placeholder: UIImage(named: "placeholder_avatar_image"),
             options: [.processor(processor)]
         )
-        
     }
     
     @objc private func didTapLogoutButton(){
-        let alert = UIAlertController(
-            title: "Пока, пока!",
-            message: "Вы уверены, что хотите выйти?",
-            preferredStyle: .alert)
-        
-        
-        let actionStay = UIAlertAction(
-            title: "Нет",
-            style: .cancel)
-        
-        let actionLogout = UIAlertAction(
-            title: "Да",
-            style: .default) {[weak self] _ in
-                self?.logout()
-            }
-        
-        alert.addAction(actionLogout)
-        alert.addAction(actionStay)
-        
-        alert.preferredAction = actionStay
-        present(alert, animated: true)
-    }
-    
-    private func logout(){
-        self.clean()
-        
-        let window = UIApplication
-            .shared
-            .connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .flatMap { $0.windows }.first
-        guard let window else {
-            assertionFailure("Invalid Configuration")
-            return
+        if let alert = presenter?.makeLogoutAlert() {
+            present(alert, animated: true)
         }
-        let splashViewController = SplashViewController()
-        window.rootViewController = splashViewController
     }
     
-    private func clean() {
-       OAuth2TokenStorage.shared.token = nil
-       // Очищаем все куки из хранилища.
-       HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-       // Запрашиваем все данные из локального хранилища.
-       WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
-          // Массив полученных записей удаляем из хранилища.
-          records.forEach { record in
-             WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-          }
-       }
-    }
     
     private func updateProfileDetails(profile: Profile) {
         nameLabel.text = profile.name
@@ -160,11 +115,16 @@ final class ProfileViewController: UIViewController {
     }
     
     private func configScreen(){
-        _ = avatarImageView
-        _ = logoutButton
-        _ = nameLabel
-        _ = descriptionLabel
-        _ = loginNameLabel
+        [
+            avatarImageView,
+            logoutButton,
+            nameLabel,
+            descriptionLabel,
+            loginNameLabel
+        ].forEach { subView in
+            view.addSubview(subView)
+        }
+        
         setupConstraints()
     }
     
@@ -198,5 +158,27 @@ final class ProfileViewController: UIViewController {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
+    }
+    
+    func configure(_ presenter: ProfileViewPresenterProtocol) {
+        presenter.service = ProfileImageService.shared
+        self.presenter = presenter
+        presenter.view = self
+    }
+    
+    func logout(){
+        presenter?.clean()
+        
+        let window = UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }.first
+        guard let window else {
+            assertionFailure("Invalid Configuration")
+            return
+        }
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
     }
 }

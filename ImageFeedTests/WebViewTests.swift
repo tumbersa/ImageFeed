@@ -44,7 +44,7 @@ final class WebViewControllerSpy: WebViewViewControllerProtocol {
     
 }
 
-final class WeebViewTests: XCTestCase {
+final class WebViewTests: XCTestCase {
 
     func testViewControllerCallsViewDidLoad(){
         //Given
@@ -132,3 +132,6 @@ final class WeebViewTests: XCTestCase {
         XCTAssertEqual(code, "someCode")
     }
 }
+
+
+

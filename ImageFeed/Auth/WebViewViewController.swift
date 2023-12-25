@@ -17,7 +17,7 @@ protocol WebViewViewControllerProtocol: AnyObject {
 }
 
 final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
-    weak var presenter: WebViewPresenterProtocol?
+    var presenter: WebViewPresenterProtocol?
     
     private var estimatedProgressObservation: NSKeyValueObservation?
     

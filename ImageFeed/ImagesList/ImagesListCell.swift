@@ -124,12 +124,16 @@ final class ImagesListCell: UITableViewCell {
     }
     
     func setIsLiked(_ isLiked: Bool){
-        likeButton.layer.removeAllAnimations()
+        removeAnimations()
         if isLiked {
             likeButton.setImage(UIImage(named: "Active Like"), for: .normal)
         } else {
             likeButton.setImage(UIImage(named: "No Active Like"), for: .normal)
         }
             
+    }
+    
+    func removeAnimations(){
+        likeButton.layer.removeAllAnimations()
     }
 }
