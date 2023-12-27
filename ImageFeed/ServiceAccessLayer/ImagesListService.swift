@@ -7,8 +7,16 @@
 
 import Foundation
 
-class ImagesListService{
-    static let shared = ImagesListService()
+protocol ImagesListServiceProtocol {
+    static var shared: ImagesListServiceProtocol { get }
+    var photos: [Photo] {get }
+    
+    func fetchPhotosNextPage()
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
+}
+
+class ImagesListService: ImagesListServiceProtocol {
+    static let shared: ImagesListServiceProtocol = ImagesListService()
     
     private init (){
         dateFormatter.formatOptions = [.withInternetDateTime]

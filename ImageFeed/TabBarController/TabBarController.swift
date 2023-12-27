@@ -14,13 +14,17 @@ final class TabBarController: UITabBarController {
         tabBar.barTintColor = .ypBlack
         tabBar.tintColor = .ypWhite
         
+        let presenterImagesList = ImagesListViewPresenter()
         let imagesListViewController = ImagesListViewController()
+        imagesListViewController.configure(presenterImagesList)
         imagesListViewController.tabBarItem = UITabBarItem(
             title: nil,
             image: UIImage(named: "tab_editorial_active"),
             selectedImage: nil)
         
         let profileViewController = ProfileViewController()
+        let presenterProfile = ProfileViewPresenter()
+        profileViewController.configure(presenterProfile)
         profileViewController.tabBarItem = UITabBarItem(
             title: nil,
             image: UIImage(named: "tab_profile_active"),
