@@ -7,15 +7,6 @@
 
 import Foundation
 
-
-let accessKeyStandard = Constants.accessKey
-let secretKeyStandard = Constants.secretKey
-let redirectURIStandard = Constants.redirectURI
-let accessScopeStandard = Constants.accessScope
-
-let defaultBaseURLStandard = Constants.defaultBaseURL
-let unsplashAuthorizeURLStringStandard = Constants.unsplashAuthorizeURLString
-
 struct AuthConfiguration {
     let accessKey: String
     let secretKey: String
@@ -25,10 +16,10 @@ struct AuthConfiguration {
    
     static var standard: AuthConfiguration {
         return AuthConfiguration(
-            accessKey: accessKeyStandard,
-            secretKey: secretKeyStandard,
-            redirectURI: redirectURIStandard,
-            accessScope: accessScopeStandard,
-            defaultBaseURL: defaultBaseURLStandard)
+            accessKey: Constants.accessKeyStandard,
+            secretKey: Constants.secretKeyStandard,
+            redirectURI: Constants.redirectURIStandard,
+            accessScope: Constants.accessScopeStandard,
+            defaultBaseURL: Constants.defaultBaseURLStandard)
     }
 }

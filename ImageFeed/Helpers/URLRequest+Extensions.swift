@@ -13,7 +13,7 @@ extension URLRequest {
     static func makeHTTPRequest(
         path: String,
         httpMethod: String = "GET",
-        baseUrl: URL = Constants.defaultBaseURL
+        baseUrl: URL = Constants.defaultBaseURLStandard
     ) -> URLRequest {
         guard let url = URL(string: path, relativeTo: baseUrl) else {
             fatalError("Invalid url")

@@ -7,12 +7,6 @@
 
 import Foundation
 
-let titleAlertStandard = "Пока, пока!"
-let messageAlertStandard = "Вы уверены, что хотите выйти?"
-let titleYesButtonStandard = "Да"
-let titleNoButtonStandard = "Нет"
-
-
 struct ProfileAlertConfiguration {
     let titleAlert: String
     let messageAlert: String
@@ -21,9 +15,9 @@ struct ProfileAlertConfiguration {
     
     static var standard:ProfileAlertConfiguration {
         return ProfileAlertConfiguration(
-            titleAlert: titleAlertStandard,
-            messageAlert: messageAlertStandard,
-            titleYesButton: titleYesButtonStandard,
-            titleNoButton: titleNoButtonStandard)
+            titleAlert: Constants.titleLogoutAlertStandard,
+            messageAlert: Constants.messageLogoutAlertStandard,
+            titleYesButton: Constants.titleLogoutYesButtonStandard,
+            titleNoButton: Constants.titleLogoutNoButtonStandard)
     }
 }

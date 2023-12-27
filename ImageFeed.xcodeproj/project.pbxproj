@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A4159FE62B3C8FA30000E809 /* WebViewDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4159FE52B3C8FA30000E809 /* WebViewDoubles.swift */; };
+		A4159FE82B3C90030000E809 /* ProfileViewDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4159FE72B3C90030000E809 /* ProfileViewDoubles.swift */; };
+		A4159FEA2B3C90370000E809 /* ImagesListDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4159FE92B3C90370000E809 /* ImagesListDoubles.swift */; };
 		A41E94B72B0DCC44000D410C /* Notification.Name+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41E94B62B0DCC44000D410C /* Notification.Name+Extensions.swift */; };
 		A41E94BA2B0DCD4C000D410C /* UserResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41E94B92B0DCD4C000D410C /* UserResults.swift */; };
 		A41E94BC2B0DCD78000D410C /* ProfileResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41E94BB2B0DCD78000D410C /* ProfileResult.swift */; };
@@ -73,6 +76,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A4159FE52B3C8FA30000E809 /* WebViewDoubles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDoubles.swift; sourceTree = "<group>"; };
+		A4159FE72B3C90030000E809 /* ProfileViewDoubles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewDoubles.swift; sourceTree = "<group>"; };
+		A4159FE92B3C90370000E809 /* ImagesListDoubles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListDoubles.swift; sourceTree = "<group>"; };
 		A41E94B62B0DCC44000D410C /* Notification.Name+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Extensions.swift"; sourceTree = "<group>"; };
 		A41E94B92B0DCD4C000D410C /* UserResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResults.swift; sourceTree = "<group>"; };
 		A41E94BB2B0DCD78000D410C /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
@@ -174,8 +180,11 @@
 		A445A7582B374AD3007538E3 /* ImageFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				A4159FE52B3C8FA30000E809 /* WebViewDoubles.swift */,
 				A445A7592B374AD3007538E3 /* WebViewTests.swift */,
+				A4159FE72B3C90030000E809 /* ProfileViewDoubles.swift */,
 				A4293FA32B3A0AFB000B64D5 /* ProfileViewTests.swift */,
+				A4159FE92B3C90370000E809 /* ImagesListDoubles.swift */,
 				A4293FA52B3A0B2F000B64D5 /* ImagesListViewTests.swift */,
 			);
 			path = ImageFeedTests;
@@ -454,6 +463,9 @@
 			files = (
 				A4293FA62B3A0B2F000B64D5 /* ImagesListViewTests.swift in Sources */,
 				A4293FA42B3A0AFB000B64D5 /* ProfileViewTests.swift in Sources */,
+				A4159FE62B3C8FA30000E809 /* WebViewDoubles.swift in Sources */,
+				A4159FE82B3C90030000E809 /* ProfileViewDoubles.swift in Sources */,
+				A4159FEA2B3C90370000E809 /* ImagesListDoubles.swift in Sources */,
 				A4F2BF252B3764DA00B8EF1B /* WebViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

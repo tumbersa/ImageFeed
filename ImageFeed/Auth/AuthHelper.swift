@@ -31,10 +31,10 @@ final class AuthHelper: AuthHelperProtocol {
             return URL(fileURLWithPath: "")
         }
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
+            URLQueryItem(name: "client_id", value: Constants.accessKeyStandard),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURIStandard),
         URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
+            URLQueryItem(name: "scope", value: Constants.accessScopeStandard)
         ]
         guard let url = urlComponents.url else {
             assertionFailure("There is no url in url components")

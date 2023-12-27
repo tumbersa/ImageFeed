@@ -8,28 +8,6 @@
 @testable import ImageFeed
 import XCTest
 
-final class ImagesListServiceSpy: ImagesListServiceProtocol {
-    static var shared: ImageFeed.ImagesListServiceProtocol = ImagesListServiceSpy()
-    
-    var photos: [ImageFeed.Photo] = [Photo(
-        id: "",
-        size: CGSize(),
-        createdAt: nil,
-        welcomeDescription: nil,
-        thumbImageURL: "",
-        largeImageURL: "",
-        isLiked: false)]
-    
-    var viewDidLoadCalled = false
-    
-    func fetchPhotosNextPage() {
-        viewDidLoadCalled = true
-    }
-    
-    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
-        
-    }
-}
 
 
 final class ImagesListViewTests: XCTestCase {
