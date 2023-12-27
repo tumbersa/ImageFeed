@@ -104,8 +104,10 @@ extension ImagesListViewController {
         
         if presenter.getPhoto(indexPath).isLiked {
             cell.likeButton.setImage(UIImage(named: "Active Like"), for: .normal)
+            cell.likeButton.accessibilityIdentifier = "LikeButtonOn"
         } else {
             cell.likeButton.setImage(UIImage(named: "No Active Like"), for: .normal)
+            cell.likeButton.accessibilityIdentifier = "LikeButtonOff"
         }
         
         let gradient = CAGradientLayer()

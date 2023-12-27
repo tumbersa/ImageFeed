@@ -42,12 +42,13 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
                 view?.logout()
             }
         
-        
+        actionLogout.accessibilityIdentifier = "AlertLogoutButton"
         alert.addAction(actionLogout)
         alert.addAction(actionStay)
         
         alert.preferredAction = actionStay
-               
+        
+        
         return alert
     }
     
