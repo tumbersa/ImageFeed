@@ -61,6 +61,7 @@ class ImagesListViewController: UIViewController & ImagesListViewControllerProto
     
     
     func updateTableViewAnimated(){
+        
         guard let indexPaths = presenter?.newIndexPaths() else {
             return
         }
@@ -83,6 +84,8 @@ extension ImagesListViewController {
         cell.backgroundColor = .ypBlack
         cell.selectionStyle = .none
         cell.delegate = self
+        
+        
         guard let presenter else { return }
         
         let url = URL(string:  presenter.getPhoto(indexPath).thumbImageURL)

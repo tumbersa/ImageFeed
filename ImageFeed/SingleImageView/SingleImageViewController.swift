@@ -187,4 +187,10 @@ extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let leftMargin = (scrollView.bounds.width - scrollView.contentSize.width) * 0.5
+        let topMargin = (scrollView.bounds.height - scrollView.contentSize.height) * 0.5
+        scrollView.contentInset = UIEdgeInsets(top: topMargin, left: leftMargin, bottom: 0, right: 0)
+    }
 }

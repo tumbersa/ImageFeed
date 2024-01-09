@@ -68,7 +68,7 @@ final class ImagesListCell: UITableViewCell {
         ].forEach { subview in
             contentView.addSubview(subview)
         }
-        
+    
         likeButton.addTarget(
             self,
             action: #selector(likeButtonClicked),

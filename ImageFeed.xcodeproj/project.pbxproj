@@ -56,6 +56,7 @@
 		A4C6B8072B36DDAD00C3046E /* AuthConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C6B8062B36DDAD00C3046E /* AuthConfiguration.swift */; };
 		A4C6B8092B36DEFF00C3046E /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C6B8082B36DEFF00C3046E /* AuthHelper.swift */; };
 		A4F2BF252B3764DA00B8EF1B /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A445A7592B374AD3007538E3 /* WebViewTests.swift */; };
+		A4F988192B4C4AC2006F963E /* IFGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F988182B4C4AC2006F963E /* IFGradient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +129,7 @@
 		A4C6B8062B36DDAD00C3046E /* AuthConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConfiguration.swift; sourceTree = "<group>"; };
 		A4C6B8082B36DEFF00C3046E /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		A4F2BF262B3764FF00B8EF1B /* ImageFeedTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ImageFeedTests.xctestplan; sourceTree = "<group>"; };
+		A4F988182B4C4AC2006F963E /* IFGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IFGradient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,9 +290,9 @@
 		A47854372AD03C3200299621 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				A47854382AD03C3200299621 /* AppDelegate.swift */,
-				A478543A2AD03C3200299621 /* SceneDelegate.swift */,
-				A4A2FD572AF3B97A00447021 /* Constants.swift */,
+				A4F988172B4C4A77006F963E /* Utilities */,
+				A4F988162B4C4A4C006F963E /* Support */,
+				A4F988152B4C49FF006F963E /* Views */,
 				A41E94B82B0DCD25000D410C /* Models */,
 				A45A0F712B07A4AC00C4C8B2 /* SplashViewController */,
 				A41E94BF2B0DCDD3000D410C /* TabBarController */,
@@ -300,9 +302,6 @@
 				A45DDFEF2AEC018F00ACAA19 /* Helpers */,
 				A445F1D82AE1BE4500507A38 /* Profile */,
 				A44FE1C32AF4D7DF00FBDBC1 /* SingleImageView */,
-				A478543E2AD03C3300299621 /* Main.storyboard */,
-				A47854412AD03C3400299621 /* Assets.xcassets */,
-				A47854432AD03C3400299621 /* LaunchScreen.storyboard */,
 				A47854462AD03C3400299621 /* Info.plist */,
 			);
 			path = ImageFeed;
@@ -318,6 +317,34 @@
 				A470C6562B18CC0C000E512D /* ImagesListService.swift */,
 			);
 			path = ServiceAccessLayer;
+			sourceTree = "<group>";
+		};
+		A4F988152B4C49FF006F963E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A4F988182B4C4AC2006F963E /* IFGradient.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A4F988162B4C4A4C006F963E /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				A47854412AD03C3400299621 /* Assets.xcassets */,
+				A47854432AD03C3400299621 /* LaunchScreen.storyboard */,
+				A47854382AD03C3200299621 /* AppDelegate.swift */,
+				A478543E2AD03C3300299621 /* Main.storyboard */,
+				A478543A2AD03C3200299621 /* SceneDelegate.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		A4F988172B4C4A77006F963E /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A4A2FD572AF3B97A00447021 /* Constants.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -487,6 +514,7 @@
 				A44EF3992AF5020C00B6C24D /* WebViewViewController.swift in Sources */,
 				A478543D2AD03C3200299621 /* ImagesListViewController.swift in Sources */,
 				A45DDFF12AEC01AF00ACAA19 /* UIColor+Extensions.swift in Sources */,
+				A4F988192B4C4AC2006F963E /* IFGradient.swift in Sources */,
 				A470C6592B18CC88000E512D /* Photo.swift in Sources */,
 				A45AA5AD2B1B27CB001FA366 /* ImagesListCellDelegate.swift in Sources */,
 				A41E94BA2B0DCD4C000D410C /* UserResults.swift in Sources */,
@@ -564,13 +592,15 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82HCH9V652;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tumbersa.ImageFeedTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImageFeed.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ImageFeed";
 			};
 			name = Debug;
@@ -583,13 +613,15 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82HCH9V652;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tumbersa.ImageFeedTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImageFeed.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ImageFeed";
 			};
 			name = Release;
@@ -601,13 +633,15 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82HCH9V652;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tumbersa.ImageFeedUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = ImageFeed;
 			};
 			name = Debug;
@@ -619,13 +653,15 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82HCH9V652;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tumbersa.ImageFeedUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = ImageFeed;
 			};
 			name = Release;
